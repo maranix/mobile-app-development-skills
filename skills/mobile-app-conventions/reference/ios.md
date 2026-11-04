@@ -42,6 +42,13 @@ Core/                    design system, networking, analytics
 - Swift Testing for new unit tests; XCTest for UI and performance tests.
 - Snapshot tests for design-system components; do not snapshot whole screens that change weekly.
 
+## Format and lint
+
+- SwiftFormat owns layout and SwiftLint owns the rules. Keep `.swiftformat` and `.swiftlint.yml` at the repository root, and run both as a pre-commit hook and in CI.
+- CI runs `swiftformat --lint .` and `swiftlint --strict`; strict mode turns warnings into failures so they cannot accumulate.
+- Enable "Treat Warnings as Errors" for new targets and keep Swift concurrency warnings on rather than downgrading them.
+- A `// swiftlint:disable` needs a reason and the narrowest scope: the next line, not the file.
+
 ## Gotchas
 
 - `@Observable` requires iOS 17+. Below that, use `ObservableObject` with `@StateObject`, and do not mix the two models in one feature.

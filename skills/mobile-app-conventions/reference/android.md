@@ -42,6 +42,13 @@ core/                    design system, networking, analytics, common utils
 - Compose UI tests for the stateful entry point of each screen; assert on semantics, not pixels.
 - Robolectric only where an instrumented test is impractical; it does not prove device behavior.
 
+## Format and lint
+
+- `ktlint` formats and `detekt` analyzes Kotlin; Android Lint covers platform and Compose checks. Format on save and run `ktlintCheck`, `detekt`, and `lintDebug` in CI.
+- One `.editorconfig` at the repository root is the single source for ktlint; do not override rules per module.
+- `@Suppress` needs a reason on the same line, or the suppression is deleted in review.
+- Keep lint and detekt versions in the version catalog with the other plugins.
+
 ## Gotchas
 
 - Edge-to-edge is enforced for recent target SDKs. Handle insets in the scaffold, not per screen.

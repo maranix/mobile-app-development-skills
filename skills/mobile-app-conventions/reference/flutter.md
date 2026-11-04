@@ -43,6 +43,13 @@ lib/
 - `flutter test` for domain and notifier logic; `flutter_test` widget tests for screen states; `integration_test` for one or two flows per feature.
 - Golden tests for the design system, with a fixed font and surface size, or they fail on every machine.
 
+## Format and lint
+
+- `dart format` owns layout and `flutter analyze` owns the rules. Include `flutter_lints` or `very_good_analysis` in `analysis_options.yaml`, and start new projects on the stricter set.
+- CI runs `dart format --output=none --set-exit-if-changed .` and `flutter analyze --fatal-infos --fatal-warnings`.
+- Exclude generated files (`*.g.dart`, `*.freezed.dart`, `*.gr.dart`) from formatting and analysis; regenerate them instead of editing them.
+- `// ignore:` needs a reason. Fix the code, or narrow the rule in `analysis_options.yaml`, before reaching for it.
+
 ## Gotchas
 
 - Check `mounted` (or `context.mounted`) after every `await` before touching `BuildContext`.

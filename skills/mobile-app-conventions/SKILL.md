@@ -1,6 +1,7 @@
 ---
 name: mobile-app-conventions
-description: Mobile app conventions for Android (Kotlin/Compose), iOS (Swift/SwiftUI), Flutter, and Kotlin Multiplatform, covering project structure, layering, state, navigation, dependency injection, persistence, error handling, testing, and accessibility. Use when scaffolding a mobile app or feature, choosing what to share between platforms, or reviewing mobile code for platform fit.
+description: Conventions for Android, iOS, Flutter, and Kotlin Multiplatform apps, covering structure, layering, state, navigation, dependency injection, persistence, errors, lint, testing, and accessibility. Invoke before changing a mobile codebase or reviewing one.
+disable-model-invocation: true
 ---
 
 # Mobile app conventions
@@ -22,6 +23,8 @@ Read the reference for the stack in play before proposing structure or APIs:
 
 A KMP project has a platform UI too: read the KMP reference first, then the Android or iOS reference for the UI layer. When the stack is ambiguous, the build file decides.
 
+Reviewing rather than building? Walk [`reference/review-checklist.md`](reference/review-checklist.md) after reading the stack reference.
+
 ## Universal rules
 
 1. **Layer by knowledge, not file type.** UI renders and forwards intent. Logic owns rules and state transitions. Data owns I/O. A type that imports both a UI framework and a network client marks a crossed seam. Transport shapes (DTOs, rows, JSON) stop at the data seam and become domain models.
@@ -33,6 +36,7 @@ A KMP project has a platform UI too: read the KMP reference first, then the Andr
 7. **The platform owns platform UX.** Back gesture, permissions, keyboard, safe areas, and share sheets follow the host platform even when a shared layer could imitate them. A foreign back button is noticed faster than a shared abstraction saves code.
 8. **Accessibility is part of done.** Every interactive element has a label, a target of at least 44–48 dp/pt, and survives the largest text size. Verify with the platform's inspector, not by eye.
 9. **Test at the seam.** Unit-test logic with fakes; contract-test data against a fake server or database; keep end-to-end UI tests to one or two flows per feature. Snapshot tests belong to the design system, not to every screen.
+10. **Format and lint are automated.** A formatter owns layout and a linter owns the mechanical rules, so review attention goes to design. Wire both into the build and CI, and when a warning is wrong, change the rule rather than suppressing it at the call site.
 
 ## Shared or platform code
 

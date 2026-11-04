@@ -2,13 +2,13 @@
 
 Agent skills that keep mobile code consistent across Android, iOS, Flutter, and Kotlin Multiplatform.
 
-Each skill is a folder with a `SKILL.md` the agent loads on demand, plus reference files it reaches only when the task calls for them. Rules that hold on every stack live in the main file; idioms that differ live in per-stack references.
+Skills here are user-invoked: they stay out of the agent's context until you name one. Each is a folder with a `SKILL.md` and reference files the agent reaches only when the task calls for them.
 
 ## Skills
 
 ### [`mobile-app-conventions`](skills/mobile-app-conventions/SKILL.md)
 
-Conventions for building and reviewing mobile apps on four stacks. One shared spine covers project structure, layering, state ownership, dependency injection, persistence, error handling, navigation, testing, and accessibility; each stack reference adds its idiom and its gotchas.
+The shared reference: project structure, layering, state ownership, navigation, dependency injection, persistence, errors, formatting, lint, testing, and accessibility. A per-stack reference adds idiom and gotchas, and a [review checklist](skills/mobile-app-conventions/reference/review-checklist.md) turns the rules into pass/fail items.
 
 | Stack | Reference |
 | --- | --- |
@@ -17,23 +17,24 @@ Conventions for building and reviewing mobile apps on four stacks. One shared sp
 | Flutter (Dart) | [`reference/flutter.md`](skills/mobile-app-conventions/reference/flutter.md) |
 | Kotlin Multiplatform | [`reference/kmp.md`](skills/mobile-app-conventions/reference/kmp.md) |
 
-Reach for it when scaffolding an app or a feature, deciding what belongs in shared code, or reviewing mobile code for platform fit.
+### [`mobile-app-scaffold`](skills/mobile-app-scaffold/SKILL.md)
 
-## Getting Started
+A one-time setup recipe: choose the stack and UI strategy, create the project, apply the folder structure, wire dependency injection, add lint and CI, add a navigation skeleton and a test harness, set the accessibility baseline, and record the decisions. Each step ends with a check.
 
-### Install
+## Invoke
 
-Skills are plain folders. From the repository root, link one into the directory your agent discovers skills from, for example `~/.agents/skills`:
+Type the skill name with your agent's invocation command, for example `mobile-app-conventions` or `mobile-app-scaffold`. Nothing is loaded until you do.
+
+Skills are plain folders. From the repository root, link them into the directory your agent discovers skills from, for example `~/.agents/skills`:
 
 ```sh
 ln -s "$PWD/skills/mobile-app-conventions" ~/.agents/skills/mobile-app-conventions
+ln -s "$PWD/skills/mobile-app-scaffold" ~/.agents/skills/mobile-app-scaffold
 ```
 
-Copy the folder instead if symlinks are not supported.
+Copy the folders instead if symlinks are not supported.
 
-## Contributing
-
-### Layout
+## Layout
 
 ```
 skills/<skill-name>/
@@ -41,9 +42,9 @@ skills/<skill-name>/
   reference/      # material reached only through a pointer in SKILL.md
 ```
 
-### Adding a skill
+## Adding a skill
 
-1. Create `skills/<skill-name>/SKILL.md` with `name` and `description` frontmatter. The description is what the agent sees before loading the skill, so it must name the tasks that should trigger it.
+1. Create `skills/<skill-name>/SKILL.md` with `name` and `description` frontmatter and `disable-model-invocation: true`, so the skill loads only when invoked. The description is human-facing: one line on what it covers.
 2. Keep the main file to the process and the rules every run needs. Push branch-specific detail into `reference/` and point at it from `SKILL.md`.
 3. Add the skill to the list above.
 

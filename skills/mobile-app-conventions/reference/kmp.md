@@ -41,6 +41,13 @@ iosApp/                  SwiftUI shell, if native UI is chosen
 - Test `actual` implementations in their own source sets; run `iosSimulatorArm64Test` in CI, not only `testDebugUnitTest`.
 - Keep one end-to-end test per platform for the shared flow; that is where linkage and threading bugs appear.
 
+## Format and lint
+
+- `ktlint` and `detekt` cover Kotlin in every source set; the Android UI adds Android Lint, and the iOS UI adds SwiftLint and SwiftFormat.
+- Keep one `.editorconfig` and one `detekt.yml` at the repository root. Per-source-set overrides are a last resort, not the first fix.
+- CI runs `ktlintCheck`, `detekt`, and both platform linters; a change that passes on Android can still fail the iOS lint step.
+- `@Suppress` in `commonMain` hides the problem on every platform. Fix it, or scope the suppression to the file with a comment.
+
 ## Gotchas
 
 - Old freezing and `@ThreadLocal` advice predates the current memory model; do not reintroduce it.
