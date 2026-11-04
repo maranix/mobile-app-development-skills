@@ -12,13 +12,20 @@ Read [`../mobile-app-conventions/SKILL.md`](../mobile-app-conventions/SKILL.md) 
 
 ## 1. Name the stack and the UI strategy
 
-Choose Android, iOS, Flutter, or KMP. For KMP, also choose shared UI (Compose Multiplatform) or native UI. Record the stack, the UI strategy, and the state-management library in one sentence each.
+Choose Android, iOS, Flutter, or KMP. For KMP, also choose shared UI (Compose Multiplatform) or native UI, and Gradle or the Kotlin Toolchain. Record the stack, the UI strategy, the build, and the state-management library in one sentence each.
 
-**Check:** the three choices fit in a short paragraph you could paste into the README.
+**Check:** the choices fit in a short paragraph you could paste into the README.
 
 ## 2. Create the project
 
-Use the canonical generator: Android Studio or `gradle init`, Xcode, `flutter create`, or the KMP wizard. Generate the smallest app the tool offers.
+Use the stack's canonical generator:
+
+- **Android:** `android create empty-activity --name="My App" --application-id=com.example.myapp --output=./my-app` (the `android` CLI), or Android Studio > New Project. `gradle init` does not create an Android app.
+- **iOS:** no official CLI. Use Xcode > File > New > Project > App, or commit a `project.yml` and run `xcodegen generate` when the scaffold must be reproducible or agent-driven. `tuist init` is the equivalent.
+- **Flutter:** `flutter create --empty --org com.example --platforms=android,ios my_app`. `--empty` skips the counter sample.
+- **KMP:** JetBrains recommends the Kotlin Toolchain for new projects: `kotlin init` (install with `curl -fsSL https://kotl.in/install.sh | sh`). It is pre-1.0; choose the Gradle path when the project must stay on the standard build: the wizard at `kmp.jetbrains.com` or IDE > New Project > Kotlin Multiplatform.
+
+Generate the smallest app the tool offers, and delete any sample screens it leaves behind.
 
 **Check:** the empty app builds and launches on a device or simulator.
 

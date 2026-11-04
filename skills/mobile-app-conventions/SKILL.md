@@ -19,7 +19,7 @@ Read the reference for the stack in play before proposing structure or APIs:
 | Android | `build.gradle.kts`, `AndroidManifest.xml`, `@Composable` | [`reference/android.md`](reference/android.md) |
 | iOS | `Package.swift`, `*.xcodeproj`, `import SwiftUI` | [`reference/ios.md`](reference/ios.md) |
 | Flutter | `pubspec.yaml`, `lib/main.dart`, `package:flutter` imports | [`reference/flutter.md`](reference/flutter.md) |
-| Kotlin Multiplatform | `commonMain`, `expect`/`actual`, `kotlin { }` | [`reference/kmp.md`](reference/kmp.md) |
+| Kotlin Multiplatform | `commonMain`, `expect`/`actual`, `kotlin { }`, or `project.yaml`/`module.yaml` | [`reference/kmp.md`](reference/kmp.md) |
 
 A KMP project has a platform UI too: read the KMP reference first, then the Android or iOS reference for the UI layer. When the stack is ambiguous, the build file decides.
 

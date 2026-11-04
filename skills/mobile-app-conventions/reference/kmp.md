@@ -15,6 +15,8 @@ iosApp/                  SwiftUI shell, if native UI is chosen
 
 `commonMain` is the contract; platform source sets are adapters. A file in `commonMain` that imports `android.*`, `java.*`, or `platform.*` is in the wrong source set.
 
+Kotlin Toolchain projects use `project.yaml` and `module.yaml` instead of Gradle and name modules differently. Keep the same layering, follow the generator's module names, and run `kotlin build` and `kotlin test` in place of the Gradle tasks.
+
 ## What to share
 
 - Share domain models, validation, use cases, repository interfaces, serialization, and data clients.
