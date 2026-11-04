@@ -1,0 +1,50 @@
+# Android conventions
+
+Kotlin, Compose, and AndroidX. Pair with the universal rules in [`../SKILL.md`](../SKILL.md).
+
+## Structure
+
+Feature-first, with layers inside each feature:
+
+```
+app/                     composition root: Application, MainActivity, DI graph
+feature/<name>/
+  ui/                    screens, components, UiState
+  domain/                models, use cases, repository interfaces
+  data/                  DTOs, Room entities, repository implementations
+core/                    design system, networking, analytics, common utils
+```
+
+`app` is the only module that knows every feature. A feature may depend on `core` and on another feature's domain interface, never on its UI.
+
+## UI and state
+
+- One stateful entry point per screen owns the `ViewModel`; everything below it is stateless and takes data plus lambdas. This is what makes a screen previewable and testable.
+- Collect with `collectAsStateWithLifecycle()`, not `collectAsState()`, so collection stops when the screen is not visible.
+- Model screen state as one immutable `UiState`; deliver one-shot effects through a `Channel`, not through a flag in state.
+- Hoist state to the lowest common owner. A dialog's open flag belongs to the composable that shows it, not to the screen's `ViewModel`.
+- Keep `Context` out of the `ViewModel`. Resolve resources in the UI layer, or inject a provider scoped to the application context.
+
+## Navigation
+
+- Use Navigation 3, or type-safe Navigation Compose on an older setup. Routes are `@Serializable` objects.
+- The back stack is state. Express intent with `popUpTo` rather than launching a new task to clear it.
+
+## Dependencies and data
+
+- Constructor injection everywhere; Hilt only at the composition root. A `@Singleton` repository is a decision, not a default.
+- Room for relational data, DataStore for preferences, and a typed result or sealed error from the repository.
+- Coroutines: `viewModelScope` for UI work, `Dispatchers.IO` for blocking I/O, `supervisorScope` when one child failing must not cancel the rest. No `GlobalScope`.
+
+## Testing
+
+- JUnit and Turbine for `Flow` and `StateFlow` logic.
+- Compose UI tests for the stateful entry point of each screen; assert on semantics, not pixels.
+- Robolectric only where an instrumented test is impractical; it does not prove device behavior.
+
+## Gotchas
+
+- Edge-to-edge is enforced for recent target SDKs. Handle insets in the scaffold, not per screen.
+- `remember` dies on configuration change; `rememberSaveable` survives process death only for small, `Parcelable`-friendly values.
+- R8 strips reflection targets. Keep rules for serialization models and anything constructed by name.
+- Startup is measured with a baseline profile; a `ContentProvider` initializer that blocks the main thread shows up as cold-start time.
