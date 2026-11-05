@@ -59,6 +59,8 @@ Three files record the work. Keep each to its job, and link instead of copying:
 
 A feature, bug, or refactor gets an entry in `docs/plan.md` before code. Read [`reference/planning.md`](reference/planning.md) for the entry template and the intake questions, including when to propose a smaller approach instead.
 
+`AGENTS.md` is the entry point: it points an agent at these files and at this skill, and stays short enough to read first.
+
 ## Applying
 
 1. **Name the stack.** Done when you have read the matching reference above.

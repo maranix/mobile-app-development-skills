@@ -1,6 +1,6 @@
 ---
 name: mobile-app-scaffold
-description: Scaffold a new mobile app on Android, iOS, Flutter, or Kotlin Multiplatform. Invoke before creating the project; it reads the request, infers the stack, scope, dependencies, and defaults, asks only for the gaps, records them in docs/architecture.md, and sets up as much or as little as you choose.
+description: Scaffold a new mobile app on Android, iOS, Flutter, or Kotlin Multiplatform. Invoke before creating the project; it reads the request, infers the stack, scope, dependencies, and defaults, asks only for the gaps, records the choices in docs/decisions.md, and can add docs/architecture.md and AGENTS.md.
 disable-model-invocation: true
 ---
 
@@ -24,6 +24,7 @@ The prompt is the brief. Extract what it states, infer the rest, and ask only fo
 - **Dependencies:** from the features. Offline means local persistence; camera and object detection mean a camera permission and an on-device inference library; sync means networking. Take the smallest set from the table below that the first feature needs.
 - **Defaults:** platform state, navigation, and DI, plus standard lint. The table lists the recommendation first for each concern.
 - **Identity:** when the prompt has no name, propose 3–5 with lowercase reverse-DNS IDs derived from the organization, and let the user pick. Name availability is unverified unless the user asks you to check it.
+- **Agent instructions:** when the prompt asks for agent support or names Claude, Gemini, Copilot, or similar, create `AGENTS.md` without asking.
 
 **Ask for the gaps**, in one batch:
 
@@ -32,6 +33,7 @@ The prompt is the brief. Extract what it states, infer the rest, and ask only fo
 - **License**, from a short menu (MIT, Apache-2.0, GPL-3.0, proprietary), with one recommendation and a one-line reason.
 - **Extras**, only when a feature needs a library the default does not cover, or the user asks to override a default.
 - **Lint**, only when the user wants something other than standard.
+- **Agent instructions**, for scaffold scope and unless the prompt already asked for them or named a tool: create `AGENTS.md`? Recommended, since it is how the next agent finds the docs and the conventions skill.
 
 | Concern | Android | iOS | Flutter | KMP |
 | --- | --- | --- | --- | --- |
@@ -43,7 +45,7 @@ The prompt is the brief. Extract what it states, infer the rest, and ask only fo
 
 Lint levels: **standard** (the stack's formatter and linter with the config named in the stack reference, warnings failing CI), **strict** (`very_good_analysis`, SwiftLint `--strict`, a larger detekt config), or **none** (skip step 5). Android and Xcode templates ship without a lint config; Flutter ships `analysis_options.yaml` with `flutter_lints`; KMP templates usually ship none.
 
-**Record.** Write `docs/decisions.md` before generating: the request in one paragraph, the scope, and the agreed choices — stack, UI strategy, build, name, IDs, organization, platforms, minimum OS versions, state, navigation, DI, persistence, lint level, license, and the README outline that step 9 will fill in. Add a one-paragraph architecture sketch and link to `docs/architecture.md`, which step 10 fills in with the module tree, dependency direction, and libraries.
+**Record.** Write `docs/decisions.md` before generating: the request in one paragraph, the scope, and the agreed choices — stack, UI strategy, build, name, IDs, organization, platforms, minimum OS versions, state, navigation, DI, persistence, lint level, license, agent instructions, and the README outline that step 9 will fill in. Add a one-paragraph architecture sketch and link to `docs/architecture.md`, which step 10 fills in with the module tree, dependency direction, and libraries.
 
 For example, "Create a new app for workout tracking which works offline and uses camera and object detection along with inference support to recognize my workouts and track them automatically" gives the purpose, so what remains is the stack, the name and ID, the organization, the platforms, and the license; offline means local persistence, and the camera and inference mean the camera permission and an on-device model, so state, navigation, and DI take the platform defaults.
 
@@ -106,9 +108,17 @@ Write `README.md` from `docs/decisions.md` and the original description: what th
 
 ## 10. Record the decisions and architecture
 
-Update `docs/decisions.md` with anything the build changed: the actual package name, the dependencies that were added, and the lint config. Write `docs/architecture.md`: the feature and module tree, the seam each layer crosses, dependency direction, the libraries with versions, and how the platforms split for KMP or Flutter. Future work reads both before proposing a different shape.
+Update `docs/decisions.md` with anything the build changed: the actual package name, the dependencies that were added, and the lint config. Write `docs/architecture.md`: the feature and module tree, the seam each layer crosses, dependency direction, the libraries with versions, and how the platforms split for KMP or Flutter. Create `docs/plan.md` with an empty `## Next` checklist and the scaffold under `## Done`. Future work reads all three before proposing a different shape.
 
-**Check:** a new contributor can name every choice and find every module's dependencies from the documents alone.
+**Check:** the three documents exist, agree with each other, and a new contributor can name every choice and find every module's dependencies from them alone.
+
+## 11. Add agent instructions
+
+When the user agreed, or the prompt asked for agent support, write `AGENTS.md` at the repository root. Point it at `docs/decisions.md`, `docs/architecture.md`, and `docs/plan.md`; tell the agent to invoke `mobile-app-conventions` before changing or reviewing code and to follow the stack reference it selects; require a `docs/plan.md` entry before feature or bug work; and require build, lint, and tests before calling work done. If the prompt named a specific tool, add that tool's file (`CLAUDE.md`, `GEMINI.md`) as a one-line pointer to `AGENTS.md`.
+
+For vanilla, skip this step unless the prompt asked for agent support; then point at `docs/decisions.md` and the conventions skill only, since the other documents do not exist.
+
+**Check:** a fresh agent session can find the docs and the conventions skill from `AGENTS.md` alone.
 
 ## Keep the skeleton small
 
