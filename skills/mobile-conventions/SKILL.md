@@ -1,7 +1,6 @@
 ---
-name: mobile-app-conventions
-description: Conventions for Android, iOS, Flutter, and Kotlin Multiplatform apps, covering structure, layering, state, navigation, dependency injection, persistence, errors, lint, testing, accessibility, and project documents. Invoke before changing a mobile codebase or reviewing one.
-disable-model-invocation: true
+name: mobile-conventions
+description: Conventions for Android, iOS, Flutter, and Kotlin Multiplatform apps, covering structure, layering, state, navigation, dependency injection, persistence, errors, lint, testing, accessibility, and project documents. Use when changing, reviewing, or planning work in a mobile codebase.
 ---
 
 # Mobile app conventions

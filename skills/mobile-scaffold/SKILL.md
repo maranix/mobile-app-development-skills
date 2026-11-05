@@ -1,5 +1,5 @@
 ---
-name: mobile-app-scaffold
+name: mobile-scaffold
 description: Scaffold a new mobile app on Android, iOS, Flutter, or Kotlin Multiplatform. Invoke before creating the project; it reads the request, infers the stack, scope, dependencies, and defaults, asks only for the gaps, records the choices in docs/decisions.md, and can add docs/architecture.md and AGENTS.md.
 disable-model-invocation: true
 ---
@@ -10,7 +10,7 @@ One-time recipe. The output is a skeleton that builds; the steps below add struc
 
 **Generate, don't hand-write.** Start every project from the stack's recommended CLI or canonical wizard, then modify its output. The generated files are the baseline, so the project keeps the official template's structure and picks up upstream fixes.
 
-Run step 1 first, then read [`../mobile-app-conventions/SKILL.md`](../mobile-app-conventions/SKILL.md) and the stack reference it routes you to. Every step ends with a check; do not start the next step until it passes.
+Run step 1 first, then read [`../mobile-conventions/SKILL.md`](../mobile-conventions/SKILL.md) and the stack reference it routes you to. Every step ends with a check; do not start the next step until it passes.
 
 ## 1. Read the request and fill the gaps
 
@@ -114,7 +114,7 @@ Update `docs/decisions.md` with anything the build changed: the actual package n
 
 ## 11. Add agent instructions
 
-When the user agreed, or the prompt asked for agent support, write `AGENTS.md` at the repository root. Point it at `docs/decisions.md`, `docs/architecture.md`, and `docs/plan.md`; tell the agent to invoke `mobile-app-conventions` before changing or reviewing code and to follow the stack reference it selects; require a `docs/plan.md` entry before feature or bug work; and require build, lint, and tests before calling work done. If the prompt named a specific tool, add that tool's file (`CLAUDE.md`, `GEMINI.md`) as a one-line pointer to `AGENTS.md`.
+When the user agreed, or the prompt asked for agent support, write `AGENTS.md` at the repository root. Point it at `docs/decisions.md`, `docs/architecture.md`, and `docs/plan.md`; tell the agent to invoke `mobile-conventions` before changing or reviewing code and to follow the stack reference it selects; require a `docs/plan.md` entry before feature or bug work; and require build, lint, and tests before calling work done. If the prompt named a specific tool, add that tool's file (`CLAUDE.md`, `GEMINI.md`) as a one-line pointer to `AGENTS.md`.
 
 For vanilla, skip this step unless the prompt asked for agent support; then point at `docs/decisions.md` and the conventions skill only, since the other documents do not exist.
 
