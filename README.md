@@ -26,15 +26,15 @@ The shared reference: project structure, layering, state ownership, navigation, 
 
 ### [`mobile-app-scaffold`](skills/mobile-app-scaffold/SKILL.md)
 
-A one-time setup recipe: it asks for the app identity, scope (vanilla, scaffold, or scaffold with extras), optional libraries, and lint level, or turns a short description into name, license, and README suggestions. It then generates the project with the official CLI or wizard and applies the chosen steps: folder structure, dependency injection, lint and CI, a navigation skeleton, a test harness, the accessibility baseline, the README and license, and recorded decisions.
+A one-time setup recipe. It reads the request, infers the stack, scope, dependencies, and defaults, and asks only for what is missing. It records the choices in `docs/architecture.md`, generates the project with the official CLI or wizard, and applies the scaffold steps: folder structure, dependency injection, lint and CI, a navigation skeleton, a test harness, the accessibility baseline, and the README and license.
 
 **Examples**
 
-- *Description-first:* "Scaffold an app from this description: a tide and swell tracker for surfers. Suggest names, a license, and a README."
-- *Flutter, vanilla:* "Scaffold a Flutter app for tracking expenses. Bundle ID `com.acme.expenses`. Vanilla."
-- *KMP, full setup:* "Scaffold a KMP app with Compose Multiplatform, Koin, SQLDelight, and strict lint."
-- *iOS, native:* "Scaffold an iOS app in Xcode with SwiftData and no extras."
-- *Android, manual answers:* "Scaffold an Android app for a field-notes tool; I will answer the setup questions."
+- *Description-first, gaps asked:* "Create a new app for workout tracking which works offline and uses camera and object detection to recognize my workouts and track them automatically."
+- *Framework named:* "Scaffold a Flutter app for tracking expenses. Bundle ID `com.acme.expenses`."
+- *Overrides:* "Scaffold a KMP app with Compose Multiplatform, Koin, SQLDelight, and strict lint."
+- *Vanilla:* "Scaffold an iOS starter in Xcode. Just the template, no extras."
+- *Bare prompt:* "Scaffold a field-notes app; suggest names, a license, and a README."
 
 ## Invoke
 

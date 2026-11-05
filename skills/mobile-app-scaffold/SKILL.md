@@ -1,6 +1,6 @@
 ---
 name: mobile-app-scaffold
-description: Scaffold a new mobile app on Android, iOS, Flutter, or Kotlin Multiplatform. Invoke before creating the project; it asks for identity, scope, libraries, and lint, or turns a short description into names, license, and README, then sets up as much or as little as you choose.
+description: Scaffold a new mobile app on Android, iOS, Flutter, or Kotlin Multiplatform. Invoke before creating the project; it reads the request, infers the stack, scope, dependencies, and defaults, asks only for the gaps, records them in docs/architecture.md, and sets up as much or as little as you choose.
 disable-model-invocation: true
 ---
 
@@ -12,29 +12,26 @@ One-time recipe. The output is a skeleton that builds; the steps below add struc
 
 Run step 1 first, then read [`../mobile-app-conventions/SKILL.md`](../mobile-app-conventions/SKILL.md) and the stack reference it routes you to. Every step ends with a check; do not start the next step until it passes.
 
-## 1. Ask before generating
+## 1. Read the request and fill the gaps
 
-Ask these in one batch, and do not choose IDs, libraries, or lint rules on the user's behalf.
+The prompt is the brief. Extract what it states, infer the rest, and ask only for what remains. Do not re-ask what the prompt already answers.
 
-**Fast path (optional).** If the user would rather answer once, ask for a short description of the app, its purpose, and its audience. Propose in one batch:
+**Extract.** The purpose and audience; the framework or SDK when named ("an Android app", "an iOS app", "a Flutter app", "KMP", "hybrid"); the app name, application or bundle ID, and organization when present; the features; and any stated constraints such as offline use, permissions, or target devices.
 
-- 3–5 names, each with a lowercase application ID or bundle ID derived from the organization.
-- A license from a short menu (MIT, Apache-2.0, GPL-3.0, proprietary), with one recommendation and a one-line reason.
-- A README outline: purpose, platforms, prerequisites, configuration, build/run/test commands, project layout, license.
+**Infer.** Choose these without asking, and say what you chose:
 
-The user picks or edits, and those answers fill the identity fields below. The README outline becomes the real README in step 9 for the scaffold scopes, once the commands exist. Say that name availability is unverified unless the user asks you to check it.
+- **Scope:** a request for an app means scaffold; "template", "starter", or "boilerplate" means vanilla, which stops after step 2.
+- **Dependencies:** from the features. Offline means local persistence; camera and object detection mean a camera permission and an on-device inference library; sync means networking. Take the smallest set from the table below that the first feature needs.
+- **Defaults:** platform state, navigation, and DI, plus standard lint. The table lists the recommendation first for each concern.
+- **Identity:** when the prompt has no name, propose 3–5 with lowercase reverse-DNS IDs derived from the organization, and let the user pick. Name availability is unverified unless the user asks you to check it.
 
-**Identity.** App name, application ID or bundle ID in reverse-DNS form, organization, target platforms, and minimum OS versions. For KMP, also confirm shared UI or native UI, and Gradle or the Kotlin Toolchain.
+**Ask for the gaps**, in one batch:
 
-**Scope.** One of:
-
-- **Vanilla:** the generator's output only. Stop after step 2.
-- **Scaffold:** the full recipe — structure, DI seam, navigation skeleton, tests, accessibility, README and license. Lint is the separate choice below.
-- **Scaffold + extras:** the recipe plus libraries the user picks below.
-
-For vanilla, skip the extras and lint questions.
-
-**Extras, only for scaffold + extras.** Offer two or three options per concern, with the simplest platform default first. Add only what the first feature needs.
+- **Identity:** whichever of app name, application or bundle ID, organization, target platforms, and minimum OS versions the prompt does not give. For KMP, also shared UI or native UI, and Gradle or the Kotlin Toolchain.
+- **Framework**, only when the prompt neither names one nor makes it clear.
+- **License**, from a short menu (MIT, Apache-2.0, GPL-3.0, proprietary), with one recommendation and a one-line reason.
+- **Extras**, only when a feature needs a library the default does not cover, or the user asks to override a default.
+- **Lint**, only when the user wants something other than standard.
 
 | Concern | Android | iOS | Flutter | KMP |
 | --- | --- | --- | --- | --- |
@@ -44,15 +41,13 @@ For vanilla, skip the extras and lint questions.
 | Persistence | Room (default), DataStore (prefs) | SwiftData (default), Core Data | drift (default), sqflite; shared_preferences (prefs) | SQLDelight (default), Room KMP |
 | Networking | Retrofit/OkHttp (default), Ktor | URLSession (default), Alamofire | http (default), dio | Ktor (default) |
 
-The default is the recommendation. Explain a choice only when the user asks.
+Lint levels: **standard** (the stack's formatter and linter with the config named in the stack reference, warnings failing CI), **strict** (`very_good_analysis`, SwiftLint `--strict`, a larger detekt config), or **none** (skip step 5). Android and Xcode templates ship without a lint config; Flutter ships `analysis_options.yaml` with `flutter_lints`; KMP templates usually ship none.
 
-**Lint and formatting.** Android and Xcode templates ship without a lint config: no ktlint or `lint.xml`, no SwiftLint or SwiftFormat. Flutter ships `analysis_options.yaml` with `flutter_lints`, and KMP templates usually ship none. Ask which level to use:
+**Record.** Write `docs/architecture.md` before generating: purpose, stack, UI strategy, build, name, IDs, organization, platforms, minimum OS versions, features and the dependencies they imply, state, navigation, DI, persistence, lint level, license, and the README outline that step 9 will fill in.
 
-- **Standard (recommended):** the stack's formatter and linter with the config named in the stack reference, warnings failing CI.
-- **Strict:** the stricter rule set (`very_good_analysis`, SwiftLint `--strict`, a larger detekt config).
-- **None:** skip step 5 and leave the generator's output alone.
+For example, "Create a new app for workout tracking which works offline and uses camera and object detection along with inference support to recognize my workouts and track them automatically" gives the purpose, so what remains is the stack, the name and ID, the organization, the platforms, and the license; offline means local persistence, and the camera and inference mean the camera permission and an on-device model, so state, navigation, and DI take the platform defaults.
 
-**Check:** every answer is explicit; nothing is assumed.
+**Check:** every gap has an answer, and `docs/architecture.md` names each choice.
 
 ## 2. Create the project
 
@@ -105,13 +100,13 @@ Label the interactive elements, set the minimum target size, and check the scree
 
 ## 9. Add the README and license
 
-Write `README.md` from the agreed description: what the app does, the platforms it targets, prerequisites, configuration, the commands to build, run, and test, the folder layout, and the license. Add the chosen `LICENSE` file at the repository root, or an "All rights reserved" notice in the README when the user chose proprietary.
+Write `README.md` from `docs/architecture.md` and the original description: what the app does, the platforms it targets, prerequisites, configuration, the commands to build, run, and test, the folder layout, and the license. Add the chosen `LICENSE` file at the repository root, or an "All rights reserved" notice in the README when the user chose proprietary.
 
-**Check:** a newcomer can build and run from the README alone, and the license file or notice matches the choice from step 1.
+**Check:** a newcomer can build and run from the README alone, and the license file or notice matches `docs/architecture.md`.
 
-## 10. Record the decisions
+## 10. Update the decisions
 
-Write a short `docs/decisions.md`: stack, scope, UI strategy, build, state management, dependency injection, lint level, license, and minimum OS versions. Future work reads this before proposing a different shape.
+Update `docs/architecture.md` from step 1 with anything the build changed: the actual package name, the dependencies that were added, and the lint config. Future work reads this before proposing a different shape.
 
 **Check:** a new contributor can name every choice from the document alone.
 
