@@ -1,6 +1,6 @@
 ---
 name: mobile-app-conventions
-description: Conventions for Android, iOS, Flutter, and Kotlin Multiplatform apps, covering structure, layering, state, navigation, dependency injection, persistence, errors, lint, testing, and accessibility. Invoke before changing a mobile codebase or reviewing one.
+description: Conventions for Android, iOS, Flutter, and Kotlin Multiplatform apps, covering structure, layering, state, navigation, dependency injection, persistence, errors, lint, testing, accessibility, and project documents. Invoke before changing a mobile codebase or reviewing one.
 disable-model-invocation: true
 ---
 
@@ -47,9 +47,22 @@ For KMP and Flutter, decide what crosses the platform boundary before writing:
 - Share a feature only when two platforms ship it. A single-platform app gains nothing from an abstraction built for a second platform that does not exist.
 - Expose state and intent across the boundary, never widgets or view controllers.
 
+## Project documents
+
+Three files record the work. Keep each to its job, and link instead of copying:
+
+| File | Holds | Update when |
+| --- | --- | --- |
+| `docs/decisions.md` | what was asked, what was agreed, and why, plus a short architecture summary | a choice is made or changed |
+| `docs/architecture.md` | the current shape: modules, seams, dependency direction, libraries and versions | the shape changes |
+| `docs/plan.md` | release or goal checklists, and one entry per feature or bug with requirements, sub-steps, and status | work is planned, started, or finished |
+
+A feature, bug, or refactor gets an entry in `docs/plan.md` before code. Read [`reference/planning.md`](reference/planning.md) for the entry template and the intake questions, including when to propose a smaller approach instead.
+
 ## Applying
 
 1. **Name the stack.** Done when you have read the matching reference above.
-2. **Place the change.** Name the layer it belongs to and the seam it crosses. If you cannot name the layer, the design is not settled.
-3. **Check the seam.** Ask whether UI imports data, logic imports UI, or shared code imports platform APIs. Any yes means the dependency moves behind an interface.
-4. **Verify with the stack's tools.** Run its build, lint, and test tasks; a green build is the floor, not the proof.
+2. **Record the work.** New feature or bug work gets a `docs/plan.md` entry first; a choice goes to `docs/decisions.md`. See [`reference/planning.md`](reference/planning.md).
+3. **Place the change.** Name the layer it belongs to and the seam it crosses. If you cannot name the layer, the design is not settled.
+4. **Check the seam.** Ask whether UI imports data, logic imports UI, or shared code imports platform APIs. Any yes means the dependency moves behind an interface.
+5. **Verify with the stack's tools.** Run its build, lint, and test tasks; a green build is the floor, not the proof.

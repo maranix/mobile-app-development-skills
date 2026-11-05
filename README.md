@@ -8,7 +8,7 @@ Skills here are user-invoked: they stay out of the agent's context until you nam
 
 ### [`mobile-app-conventions`](skills/mobile-app-conventions/SKILL.md)
 
-The shared reference: project structure, layering, state ownership, navigation, dependency injection, persistence, errors, formatting, lint, testing, and accessibility. A per-stack reference adds idiom and gotchas, and a [review checklist](skills/mobile-app-conventions/reference/review-checklist.md) turns the rules into pass/fail items.
+The shared reference: project structure, layering, state ownership, navigation, dependency injection, persistence, errors, formatting, lint, testing, accessibility, and project documents. A per-stack reference adds idiom and gotchas, and a [review checklist](skills/mobile-app-conventions/reference/review-checklist.md) turns the rules into pass/fail items. A [planning reference](skills/mobile-app-conventions/reference/planning.md) covers `docs/decisions.md`, `docs/architecture.md`, and `docs/plan.md`, plus the feature and bug intake.
 
 | Stack | Reference |
 | --- | --- |
@@ -20,13 +20,14 @@ The shared reference: project structure, layering, state ownership, navigation, 
 **Examples**
 
 - *Review:* "Review this checkout screen for seam violations and tell me what to move."
+- *Plan a feature:* "Add offline sync to the workout app. Write the plan entry and requirements first."
 - *Decide:* "We are adding offline support. Which layer owns the cache, and what belongs in shared code?"
 - *Configure:* "Set up ktlint, detekt, and a CI gate for this Android module."
 - *Check a shared change:* "Is this file safe to move into `commonMain`?"
 
 ### [`mobile-app-scaffold`](skills/mobile-app-scaffold/SKILL.md)
 
-A one-time setup recipe. It reads the request, infers the stack, scope, dependencies, and defaults, and asks only for what is missing. It records the choices in `docs/architecture.md`, generates the project with the official CLI or wizard, and applies the scaffold steps: folder structure, dependency injection, lint and CI, a navigation skeleton, a test harness, the accessibility baseline, and the README and license.
+A one-time setup recipe. It reads the request, infers the stack, scope, dependencies, and defaults, and asks only for what is missing. It records the request and agreed choices in `docs/decisions.md`, generates the project with the official CLI or wizard, and applies the scaffold steps: folder structure, dependency injection, lint and CI, a navigation skeleton, a test harness, the accessibility baseline, the README and license, and the detailed `docs/architecture.md`.
 
 **Examples**
 

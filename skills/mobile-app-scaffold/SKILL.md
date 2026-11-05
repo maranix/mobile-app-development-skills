@@ -43,11 +43,11 @@ The prompt is the brief. Extract what it states, infer the rest, and ask only fo
 
 Lint levels: **standard** (the stack's formatter and linter with the config named in the stack reference, warnings failing CI), **strict** (`very_good_analysis`, SwiftLint `--strict`, a larger detekt config), or **none** (skip step 5). Android and Xcode templates ship without a lint config; Flutter ships `analysis_options.yaml` with `flutter_lints`; KMP templates usually ship none.
 
-**Record.** Write `docs/architecture.md` before generating: purpose, stack, UI strategy, build, name, IDs, organization, platforms, minimum OS versions, features and the dependencies they imply, state, navigation, DI, persistence, lint level, license, and the README outline that step 9 will fill in.
+**Record.** Write `docs/decisions.md` before generating: the request in one paragraph, the scope, and the agreed choices — stack, UI strategy, build, name, IDs, organization, platforms, minimum OS versions, state, navigation, DI, persistence, lint level, license, and the README outline that step 9 will fill in. Add a one-paragraph architecture sketch and link to `docs/architecture.md`, which step 10 fills in with the module tree, dependency direction, and libraries.
 
 For example, "Create a new app for workout tracking which works offline and uses camera and object detection along with inference support to recognize my workouts and track them automatically" gives the purpose, so what remains is the stack, the name and ID, the organization, the platforms, and the license; offline means local persistence, and the camera and inference mean the camera permission and an on-device model, so state, navigation, and DI take the platform defaults.
 
-**Check:** every gap has an answer, and `docs/architecture.md` names each choice.
+**Check:** every gap has an answer, and `docs/decisions.md` records the request and the agreed choices.
 
 ## 2. Create the project
 
@@ -100,15 +100,15 @@ Label the interactive elements, set the minimum target size, and check the scree
 
 ## 9. Add the README and license
 
-Write `README.md` from `docs/architecture.md` and the original description: what the app does, the platforms it targets, prerequisites, configuration, the commands to build, run, and test, the folder layout, and the license. Add the chosen `LICENSE` file at the repository root, or an "All rights reserved" notice in the README when the user chose proprietary.
+Write `README.md` from `docs/decisions.md` and the original description: what the app does, the platforms it targets, prerequisites, configuration, the commands to build, run, and test, the folder layout, and the license. Add the chosen `LICENSE` file at the repository root, or an "All rights reserved" notice in the README when the user chose proprietary.
 
-**Check:** a newcomer can build and run from the README alone, and the license file or notice matches `docs/architecture.md`.
+**Check:** a newcomer can build and run from the README alone, and the license file or notice matches `docs/decisions.md`.
 
-## 10. Update the decisions
+## 10. Record the decisions and architecture
 
-Update `docs/architecture.md` from step 1 with anything the build changed: the actual package name, the dependencies that were added, and the lint config. Future work reads this before proposing a different shape.
+Update `docs/decisions.md` with anything the build changed: the actual package name, the dependencies that were added, and the lint config. Write `docs/architecture.md`: the feature and module tree, the seam each layer crosses, dependency direction, the libraries with versions, and how the platforms split for KMP or Flutter. Future work reads both before proposing a different shape.
 
-**Check:** a new contributor can name every choice from the document alone.
+**Check:** a new contributor can name every choice and find every module's dependencies from the documents alone.
 
 ## Keep the skeleton small
 
