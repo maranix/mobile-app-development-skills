@@ -45,6 +45,13 @@ Walk every item. A "no" is a finding, not a style preference. Read the stack ref
 - [ ] Logic has unit tests at the seams; one end-to-end flow per feature.
 - [ ] No suppression without a stated reason.
 
+## Documentation
+
+- [ ] The feature, bug, or refactor has a `docs/plan.md` entry, and its status and sub-steps match the code.
+- [ ] `docs/architecture.md` matches the current modules, seams, dependencies, and commands.
+- [ ] `README.md` matches what the app does and how to build, run, and test it.
+- [ ] No document describes a feature or command that no longer exists.
+
 ## Per stack
 
 Run the checks in the matching reference: [android](android.md) · [ios](ios.md) · [flutter](flutter.md) · [kmp](kmp.md).

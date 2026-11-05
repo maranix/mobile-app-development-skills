@@ -1,6 +1,6 @@
 ---
 name: mobile-scaffold
-description: Scaffold a new mobile app on Android, iOS, Flutter, or Kotlin Multiplatform. Invoke before creating the project; it reads the request, infers the stack, scope, dependencies, and defaults, asks only for the gaps, records the choices in docs/decisions.md, and can add docs/architecture.md and AGENTS.md.
+description: Scaffold a new mobile app on Android, iOS, Flutter, or Kotlin Multiplatform. Invoke before creating the project; it reads the request, infers the stack, scope, dependencies, and defaults, asks only for the gaps, records the choices in docs/decisions.md, and sets up docs/architecture.md, docs/plan.md, README.md, and AGENTS.md in sync.
 disable-model-invocation: true
 ---
 
@@ -102,23 +102,32 @@ Label the interactive elements, set the minimum target size, and check the scree
 
 ## 9. Add the README and license
 
-Write `README.md` from `docs/decisions.md` and the original description: what the app does, the platforms it targets, prerequisites, configuration, the commands to build, run, and test, the folder layout, and the license. Add the chosen `LICENSE` file at the repository root, or an "All rights reserved" notice in the README when the user chose proprietary.
+Write `README.md` from `docs/decisions.md` and the original description: what the app does, the platforms it targets, prerequisites, configuration, the commands to build, run, and test, the folder layout, and the license. Add the chosen `LICENSE` file at the repository root, or an "All rights reserved" notice in the README when the user chose proprietary. Treat it as a living document: step 10 checks it against the architecture, and future feature work updates it with the plan entry.
 
 **Check:** a newcomer can build and run from the README alone, and the license file or notice matches `docs/decisions.md`.
 
 ## 10. Record the decisions and architecture
 
-Update `docs/decisions.md` with anything the build changed: the actual package name, the dependencies that were added, and the lint config. Write `docs/architecture.md`: the feature and module tree, the seam each layer crosses, dependency direction, the libraries with versions, and how the platforms split for KMP or Flutter. Create `docs/plan.md` with an empty `## Next` checklist and the scaffold under `## Done`. Future work reads all three before proposing a different shape.
+Update `docs/decisions.md` with anything the build changed: the actual package name, the dependencies that were added, and the lint config. Write `docs/architecture.md`: the feature and module tree, the seam each layer crosses, dependency direction, the libraries with versions, and how the platforms split for KMP or Flutter. Create `docs/plan.md` with an empty `## Next` checklist and the scaffold under `## Done`. Re-read `README.md` and make it agree with the architecture: the same feature names, commands, and dependencies. Future work reads all four before proposing a different shape.
 
-**Check:** the three documents exist, agree with each other, and a new contributor can name every choice and find every module's dependencies from them alone.
+**Check:** all four files exist, agree with each other, and a new contributor can name every choice and find every module's dependencies from them alone.
 
 ## 11. Add agent instructions
 
-When the user agreed, or the prompt asked for agent support, write `AGENTS.md` at the repository root. Point it at `docs/decisions.md`, `docs/architecture.md`, and `docs/plan.md`; tell the agent to invoke `mobile-conventions` before changing or reviewing code and to follow the stack reference it selects; require a `docs/plan.md` entry before feature or bug work; and require build, lint, and tests before calling work done. If the prompt named a specific tool, add that tool's file (`CLAUDE.md`, `GEMINI.md`) as a one-line pointer to `AGENTS.md`.
+When the user agreed, or the prompt asked for agent support, write `AGENTS.md` at the repository root. It should tell the next agent to:
+
+- Read `docs/decisions.md`, `docs/architecture.md`, `docs/plan.md`, and `README.md` before changing code.
+- Invoke `mobile-conventions` before changing or reviewing code, and follow the stack reference it selects.
+- Start every feature, bug, or refactor with a `docs/plan.md` entry.
+- Update `docs/architecture.md` and `README.md` in the same change whenever the shape, dependencies, commands, or user-facing behavior change.
+- Treat a change as incomplete while the plan entry, architecture, README, and decisions disagree.
+- Run build, lint, and tests before calling work done.
+
+If the prompt named a specific tool, add that tool's file (`CLAUDE.md`, `GEMINI.md`) as a one-line pointer to `AGENTS.md`.
 
 For vanilla, skip this step unless the prompt asked for agent support; then point at `docs/decisions.md` and the conventions skill only, since the other documents do not exist.
 
-**Check:** a fresh agent session can find the docs and the conventions skill from `AGENTS.md` alone.
+**Check:** a fresh agent session can find the docs and the conventions skill from `AGENTS.md` alone, and knows that a plan entry comes first and the other documents move with the code.
 
 ## Keep the skeleton small
 

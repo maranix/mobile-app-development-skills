@@ -1,6 +1,6 @@
 ---
 name: mobile-conventions
-description: Conventions for Android, iOS, Flutter, and Kotlin Multiplatform apps, covering structure, layering, state, navigation, dependency injection, persistence, errors, lint, testing, accessibility, and project documents. Use when changing, reviewing, or planning work in a mobile codebase.
+description: Conventions for Android, iOS, Flutter, and Kotlin Multiplatform apps, covering structure, layering, state, navigation, dependency injection, persistence, errors, lint, testing, accessibility, and project documents, including the README. Use when changing, reviewing, or planning work in a mobile codebase.
 ---
 
 # Mobile app conventions
@@ -36,6 +36,7 @@ Reviewing rather than building? Walk [`reference/review-checklist.md`](reference
 8. **Accessibility is part of done.** Every interactive element has a label, a target of at least 44–48 dp/pt, and survives the largest text size. Verify with the platform's inspector, not by eye.
 9. **Test at the seam.** Unit-test logic with fakes; contract-test data against a fake server or database; keep end-to-end UI tests to one or two flows per feature. Snapshot tests belong to the design system, not to every screen.
 10. **Format and lint are automated.** A formatter owns layout and a linter owns the mechanical rules, so review attention goes to design. Wire both into the build and CI, and when a warning is wrong, change the rule rather than suppressing it at the call site.
+11. **Documentation moves with the code.** A feature, bug, or refactor starts with a `docs/plan.md` entry. `docs/architecture.md` and `README.md` change in the same commit whenever the shape, dependencies, commands, or user-facing behavior move. A change is not done while the documents disagree.
 
 ## Shared or platform code
 
@@ -48,22 +49,24 @@ For KMP and Flutter, decide what crosses the platform boundary before writing:
 
 ## Project documents
 
-Three files record the work. Keep each to its job, and link instead of copying:
+Four files record the work. Keep each to its job, and link instead of copying:
 
 | File | Holds | Update when |
 | --- | --- | --- |
 | `docs/decisions.md` | what was asked, what was agreed, and why, plus a short architecture summary | a choice is made or changed |
 | `docs/architecture.md` | the current shape: modules, seams, dependency direction, libraries and versions | the shape changes |
 | `docs/plan.md` | release or goal checklists, and one entry per feature or bug with requirements, sub-steps, and status | work is planned, started, or finished |
+| `README.md` | what the app does, how to build, run, and test it, and the layout | behavior, setup, commands, or structure changes |
 
-A feature, bug, or refactor gets an entry in `docs/plan.md` before code. Read [`reference/planning.md`](reference/planning.md) for the entry template and the intake questions, including when to propose a smaller approach instead.
+A feature, bug, or refactor gets an entry in `docs/plan.md` before code. Architecture and README move in the same change as the code; a change is not done while they disagree. Read [`reference/planning.md`](reference/planning.md) for the entry template, the sync matrix, and the intake questions, including when to propose a smaller approach instead.
 
 `AGENTS.md` is the entry point: it points an agent at these files and at this skill, and stays short enough to read first.
 
 ## Applying
 
 1. **Name the stack.** Done when you have read the matching reference above.
-2. **Record the work.** New feature or bug work gets a `docs/plan.md` entry first; a choice goes to `docs/decisions.md`. See [`reference/planning.md`](reference/planning.md).
+2. **Record the work.** New feature or bug work gets a `docs/plan.md` entry first; a choice goes to `docs/decisions.md`. Note the architecture and README updates the entry will require. See [`reference/planning.md`](reference/planning.md).
 3. **Place the change.** Name the layer it belongs to and the seam it crosses. If you cannot name the layer, the design is not settled.
 4. **Check the seam.** Ask whether UI imports data, logic imports UI, or shared code imports platform APIs. Any yes means the dependency moves behind an interface.
-5. **Verify with the stack's tools.** Run its build, lint, and test tasks; a green build is the floor, not the proof.
+5. **Sync the documents.** Update `docs/architecture.md` and `README.md` in the same change. Done when the plan entry, architecture, README, and decisions agree.
+6. **Verify with the stack's tools.** Run its build, lint, and test tasks; a green build is the floor, not the proof.
