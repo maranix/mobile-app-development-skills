@@ -17,13 +17,28 @@ The shared reference: project structure, layering, state ownership, navigation, 
 | Flutter (Dart) | [`reference/flutter.md`](skills/mobile-app-conventions/reference/flutter.md) |
 | Kotlin Multiplatform | [`reference/kmp.md`](skills/mobile-app-conventions/reference/kmp.md) |
 
+**Examples**
+
+- *Review:* "Review this checkout screen for seam violations and tell me what to move."
+- *Decide:* "We are adding offline support. Which layer owns the cache, and what belongs in shared code?"
+- *Configure:* "Set up ktlint, detekt, and a CI gate for this Android module."
+- *Check a shared change:* "Is this file safe to move into `commonMain`?"
+
 ### [`mobile-app-scaffold`](skills/mobile-app-scaffold/SKILL.md)
 
 A one-time setup recipe: it asks for the app identity, scope (vanilla, scaffold, or scaffold with extras), optional libraries, and lint level, or turns a short description into name, license, and README suggestions. It then generates the project with the official CLI or wizard and applies the chosen steps: folder structure, dependency injection, lint and CI, a navigation skeleton, a test harness, the accessibility baseline, the README and license, and recorded decisions.
 
+**Examples**
+
+- *Description-first:* "Scaffold an app from this description: a tide and swell tracker for surfers. Suggest names, a license, and a README."
+- *Flutter, vanilla:* "Scaffold a Flutter app for tracking expenses. Bundle ID `com.acme.expenses`. Vanilla."
+- *KMP, full setup:* "Scaffold a KMP app with Compose Multiplatform, Koin, SQLDelight, and strict lint."
+- *iOS, native:* "Scaffold an iOS app in Xcode with SwiftData and no extras."
+- *Android, manual answers:* "Scaffold an Android app for a field-notes tool; I will answer the setup questions."
+
 ## Invoke
 
-Type the skill name with your agent's invocation command, for example `mobile-app-conventions` or `mobile-app-scaffold`. Nothing is loaded until you do.
+Type the skill name with your agent's invocation command, for example `mobile-app-conventions` or `mobile-app-scaffold`. Nothing is loaded until you do. The examples under each skill show the request that follows the name.
 
 Skills are plain folders. From the repository root, link them into the directory your agent discovers skills from, for example `~/.agents/skills`:
 
