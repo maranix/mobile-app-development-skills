@@ -19,7 +19,7 @@ The shared reference: project structure, layering, state ownership, navigation, 
 
 ### [`mobile-app-scaffold`](skills/mobile-app-scaffold/SKILL.md)
 
-A one-time setup recipe: it asks for the app identity, scope (vanilla, scaffold, or scaffold with extras), optional libraries, and lint level, then generates the project with the official CLI or wizard and applies the chosen steps: folder structure, dependency injection, lint and CI, a navigation skeleton, a test harness, the accessibility baseline, and recorded decisions.
+A one-time setup recipe: it asks for the app identity, scope (vanilla, scaffold, or scaffold with extras), optional libraries, and lint level, or turns a short description into name, license, and README suggestions. It then generates the project with the official CLI or wizard and applies the chosen steps: folder structure, dependency injection, lint and CI, a navigation skeleton, a test harness, the accessibility baseline, the README and license, and recorded decisions.
 
 ## Invoke
 

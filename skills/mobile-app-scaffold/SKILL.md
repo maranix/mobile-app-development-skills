@@ -1,12 +1,12 @@
 ---
 name: mobile-app-scaffold
-description: Scaffold a new mobile app on Android, iOS, Flutter, or Kotlin Multiplatform. Invoke before creating the project; it asks for identity, scope, libraries, and lint, then sets up as much or as little as you choose.
+description: Scaffold a new mobile app on Android, iOS, Flutter, or Kotlin Multiplatform. Invoke before creating the project; it asks for identity, scope, libraries, and lint, or turns a short description into names, license, and README, then sets up as much or as little as you choose.
 disable-model-invocation: true
 ---
 
 # Scaffold a mobile app
 
-One-time recipe. The output is a skeleton that builds; the steps below add structure, tests, and one navigable screen, plus lint if chosen.
+One-time recipe. The output is a skeleton that builds; the steps below add structure, tests, documentation, and one navigable screen, plus lint if chosen.
 
 **Generate, don't hand-write.** Start every project from the stack's recommended CLI or canonical wizard, then modify its output. The generated files are the baseline, so the project keeps the official template's structure and picks up upstream fixes.
 
@@ -16,12 +16,20 @@ Run step 1 first, then read [`../mobile-app-conventions/SKILL.md`](../mobile-app
 
 Ask these in one batch, and do not choose IDs, libraries, or lint rules on the user's behalf.
 
+**Fast path (optional).** If the user would rather answer once, ask for a short description of the app, its purpose, and its audience. Propose in one batch:
+
+- 3–5 names, each with a lowercase application ID or bundle ID derived from the organization.
+- A license from a short menu (MIT, Apache-2.0, GPL-3.0, proprietary), with one recommendation and a one-line reason.
+- A README outline: purpose, platforms, prerequisites, configuration, build/run/test commands, project layout, license.
+
+The user picks or edits, and those answers fill the identity fields below. The README outline becomes the real README in step 9 for the scaffold scopes, once the commands exist. Say that name availability is unverified unless the user asks you to check it.
+
 **Identity.** App name, application ID or bundle ID in reverse-DNS form, organization, target platforms, and minimum OS versions. For KMP, also confirm shared UI or native UI, and Gradle or the Kotlin Toolchain.
 
 **Scope.** One of:
 
 - **Vanilla:** the generator's output only. Stop after step 2.
-- **Scaffold:** the full recipe — structure, DI seam, navigation skeleton, tests, accessibility. Lint is the separate choice below.
+- **Scaffold:** the full recipe — structure, DI seam, navigation skeleton, tests, accessibility, README and license. Lint is the separate choice below.
 - **Scaffold + extras:** the recipe plus libraries the user picks below.
 
 For vanilla, skip the extras and lint questions.
@@ -95,9 +103,15 @@ Label the interactive elements, set the minimum target size, and check the scree
 
 **Check:** the accessibility inspector reports no missing labels, and the layout does not clip at the largest scale.
 
-## 9. Record the decisions
+## 9. Add the README and license
 
-Write a short `docs/decisions.md`: stack, scope, UI strategy, build, state management, dependency injection, lint level, and minimum OS versions. Future work reads this before proposing a different shape.
+Write `README.md` from the agreed description: what the app does, the platforms it targets, prerequisites, configuration, the commands to build, run, and test, the folder layout, and the license. Add the chosen `LICENSE` file at the repository root, or an "All rights reserved" notice in the README when the user chose proprietary.
+
+**Check:** a newcomer can build and run from the README alone, and the license file or notice matches the choice from step 1.
+
+## 10. Record the decisions
+
+Write a short `docs/decisions.md`: stack, scope, UI strategy, build, state management, dependency injection, lint level, license, and minimum OS versions. Future work reads this before proposing a different shape.
 
 **Check:** a new contributor can name every choice from the document alone.
 
