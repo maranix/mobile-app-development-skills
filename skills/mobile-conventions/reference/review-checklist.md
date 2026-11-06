@@ -45,8 +45,11 @@ Walk every item. A "no" is a finding, not a style preference. Read the stack ref
 - [ ] Verification matched the change: inner loop while editing, one gate for the batch.
 - [ ] No build, lint, or test gate was spent on a documentation-only change.
 - [ ] No emulator, simulator runtime, or large SDK download was provisioned without asking.
+- [ ] Toolchain (JDK, Gradle, Xcode, SDK, Flutter, Dart) and dependency versions match the generator's baseline across every variant (Android, iOS, Flutter, KMP); a tool or package did not force a downgrade.
+- [ ] A tool or package that could not run on those versions was raised as a decision, not silently pinned, dropped, or suppressed.
 - [ ] Logic has unit tests at the seams; one end-to-end flow per feature.
 - [ ] No suppression without a stated reason.
+- [ ] No lint rule, ignore comment, or compiler warning was disabled solely to hide toolchain, platform, or dependency version skew.
 
 ## Documentation
 

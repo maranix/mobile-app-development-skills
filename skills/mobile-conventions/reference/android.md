@@ -48,6 +48,9 @@ core/                    design system, networking, analytics, common utils
 - One `.editorconfig` at the repository root is the single source for ktlint; do not override rules per module.
 - `@Suppress` needs a reason on the same line, or the suppression is deleted in review.
 - Keep lint and detekt versions in the version catalog with the other plugins.
+- The generator owns the versions: keep the JDK, Gradle, SDK, AGP, Kotlin, and dependency baseline versions the generator provisioned. Never downgrade the Gradle wrapper, JDK, SDK, or provisioned dependencies to satisfy a linter, static analysis tool, or third-party library (such as detekt or ktlint).
+- When a linter or tooling dependency does not support the provisioned Gradle, JDK, SDK, or dependency versions, do not downgrade the toolchain, dependencies, or pin an older JDK. Either upgrade the tool to a version supporting the provisioned environment, or surface the incompatibility to the user as a decision / questionnaire (options: upgrade the tool, omit the tool, or accept a documented downgrade) rather than silently overriding the build.
+- Never add Android Lint suppressions (such as disabling `AndroidGradlePluginVersion`, `GradleDependency`, `NewerVersionAvailable`, `OldTargetApi`, or `ObsoleteSdkInt`) solely to ignore or mask toolchain, SDK, or dependency version skew. Every suppression must address a genuine code defect or platform bug with a stated reason.
 
 ## Build and verify loop
 

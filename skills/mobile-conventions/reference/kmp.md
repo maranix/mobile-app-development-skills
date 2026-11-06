@@ -49,6 +49,7 @@ Kotlin Toolchain projects use `project.yaml` and `module.yaml` instead of Gradle
 - Keep one `.editorconfig` and one `detekt.yml` at the repository root. Per-source-set overrides are a last resort, not the first fix.
 - CI runs `ktlintCheck`, `detekt`, and both platform linters; a change that passes on Android can still fail the iOS lint step.
 - `@Suppress` in `commonMain` hides the problem on every platform. Fix it, or scope the suppression to the file with a comment.
+- Keep the toolchain and dependencies the generator provisioned: do not downgrade Gradle, the JDK, Kotlin, or shared/platform dependency versions to satisfy a linter, static analysis tool, or third-party library. Surface any incompatible tool or package as an explicit decision (upgrade, omit, or accept downgrade) and never disable lint rules or add suppressions just to hide version skew.
 
 ## Build and verify loop
 

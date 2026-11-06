@@ -49,6 +49,9 @@ lib/
 - CI runs `dart format --output=none --set-exit-if-changed .` and `flutter analyze --fatal-infos --fatal-warnings`.
 - Exclude generated files (`*.g.dart`, `*.freezed.dart`, `*.gr.dart`) from formatting and analysis; regenerate them instead of editing them.
 - `// ignore:` needs a reason. Fix the code, or narrow the rule in `analysis_options.yaml`, before reaching for it.
+- The generator owns the versions: keep the Flutter SDK, Dart SDK, and dependency constraints that `flutter create` provisioned. Never downgrade SDK bounds or package versions in `pubspec.yaml` to accommodate an older library or tool.
+- When a package or tool requires older SDK constraints or incompatible dependencies, surface it as an explicit decision (modern alternative, omit, or accept downgrade) rather than silently downgrading the project.
+- Never add `// ignore:` comments or disable rules in `analysis_options.yaml` solely to hide SDK or dependency version skew.
 
 ## Build and verify loop
 

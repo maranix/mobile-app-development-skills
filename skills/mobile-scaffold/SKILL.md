@@ -60,9 +60,9 @@ Use the stack's official generator, in this order, and keep it current (`flutter
 - **Flutter:** `flutter create --empty --org com.example --platforms=android,ios my_app`. `--empty` skips the counter sample.
 - **KMP:** JetBrains recommends the Kotlin Toolchain for new projects: `kotlin init` (install with `curl -fsSL https://kotl.in/install.sh | sh`). If `kotlin init` is unavailable, recommend the Toolchain and ask before installing; if declined, use the Gradle path: the wizard at `kmp.jetbrains.com` or IDE > New Project > Kotlin Multiplatform. The Toolchain is pre-1.0; choose Gradle when the project must stay on the standard build.
 
-Generate the smallest app the tool offers, then layer the scaffold's changes on that baseline. Delete any sample screens the template leaves behind; a project assembled by hand loses the template's structure and the upstream fixes that come with it.
+Generate the smallest app the tool offers, then layer the scaffold's changes on that baseline. Delete any sample screens the template leaves behind; a project assembled by hand loses the template's structure and the upstream fixes that come with it. Keep the versions the generator chose; see [Keep the generator's toolchain and dependencies](#keep-the-generators-toolchain-and-dependencies) before changing a toolchain, wrapper, platform target, SDK, or dependency version.
 
-**Check:** the empty app builds, and launches when a device or simulator is already attached. Do not provision one without asking.
+**Check:** the empty app builds on the generator's toolchain and dependencies (JDK, Gradle, Xcode, SDK, Flutter, Dart, packages), and launches when a device or simulator is already attached. Do not provision one without asking.
 
 ## 3. Apply the folder structure
 
@@ -128,6 +128,15 @@ If the prompt named a specific tool, add that tool's file (`CLAUDE.md`, `GEMINI.
 For vanilla, skip this step unless the prompt asked for agent support; then point at `docs/decisions.md` and the conventions skill only, since the other documents do not exist.
 
 **Check:** a fresh agent session can find the docs and the conventions skill from `AGENTS.md` alone, and knows that a plan entry comes first and the other documents move with the code.
+
+## Keep the generator's toolchain and dependencies
+
+- Treat the generator's toolchain, compiler, SDK, platform deployment targets, and dependencies across all variants (Android, iOS, Flutter, KMP) as the baseline. A generated project that builds is the reference; do not replace or downgrade its versions to satisfy a secondary tool, linter, formatter, or library.
+- If a linter, formatter, or third-party package does not support them, stop and report a separate decision: name the package or tool, the versions it demands, what the generator provisioned, and the three options (upgrade the package/tool or find a modern replacement, leave it out, accept the downgrade). Ask before choosing.
+- Never pin an older runtime, SDK, compiler, or dependency version silently, and never add a lint suppression or ignore comment whose only job is to hide version skew. If the tool/package is dropped, record why in `docs/decisions.md`; if it stays, record the accepted downgrade.
+- Repeat an unresolved conflict in the final result, so it is not buried in build or package-manager output.
+
+Done when the project runs on the provisioned toolchain and dependency versions, or the user has chosen the exception and it is recorded.
 
 ## Keep the loop cheap
 
