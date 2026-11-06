@@ -64,7 +64,15 @@ Generate the smallest app the tool offers. Keep the versions the generator chose
 
 **Check:** the empty app builds on the generator's toolchain and dependencies (JDK, Gradle, Xcode, SDK, Flutter, Dart, packages), and launches when a device or simulator is already attached. Do not provision one without asking.
 
-**Commit the template:** Do not proceed with implementation or modifications immediately. Commit the freshly generated template intact as its own commit (do not federate or split into parts) to establish the clean upstream baseline in git history. Layer scaffold changes in subsequent atomic commits from there.
+**Commit the template:** Do not proceed with implementation or modifications immediately. Commit the freshly generated template intact as its own commit (do not federate or split into parts) to establish the clean upstream baseline in git history.
+
+**Pause, plan, and confirm direction:** Do not automatically begin implementation or modify the template.
+1. **Present the plan:** Lay out the architecture, dependencies, and steps in `docs/plan.md` to align with the user's vision.
+2. **Ask for direction:** Ask the user how to proceed before writing code:
+   - *Full scaffold (one-shot):* Continue through steps 3–11 to build the complete foundation.
+   - *Targeted setup:* Focus first on specific dependencies, build logic, or design system.
+   - *Direct feature work:* Jump straight into implementing a specific feature or domain module.
+3. **Wait for approval:** Do not modify code until the user approves the plan and confirms direction. Once approved, invoke `mobile-conventions` and proceed on the chosen path with small, atomic commits.
 
 ## 3. Apply the folder structure
 

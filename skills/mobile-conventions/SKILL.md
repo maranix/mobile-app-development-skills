@@ -36,7 +36,10 @@ Reviewing rather than building? Walk [`reference/review-checklist.md`](reference
 8. **Accessibility is part of done.** Every interactive element has a label, a target of at least 44–48 dp/pt, and survives the largest text size. Verify with the platform's inspector, not by eye.
 9. **Test at the seam.** Unit-test logic with fakes; contract-test data against a fake server or database; keep end-to-end UI tests to one or two flows per feature. Snapshot tests belong to the design system, not to every screen.
 10. **Format and lint are automated.** A formatter owns layout and a linter owns the mechanical rules, so review attention goes to design. Wire both into the build and CI, and when a warning is wrong, change the rule rather than suppressing it at the call site.
-11. **Documentation moves with the code.** A feature, bug, or refactor starts with a `docs/plan.md` entry. `docs/architecture.md` and `README.md` change in the same commit whenever the shape, dependencies, commands, or user-facing behavior move. A change is not done while the documents disagree.
+11. **Plan first, confirm direction, and move docs with code.**
+    - Every feature, bug, refactor, or post-scaffold implementation starts with an explicit plan entry in `docs/plan.md`.
+    - Present the plan and get user approval before writing code. After project creation, confirm direction (full one-shot scaffold, dependency setup, or specific feature) rather than assuming.
+    - `docs/architecture.md` and `README.md` update in the same atomic commit whenever shape, dependencies, commands, or behavior move. A change is not done while documents disagree.
 12. **Match the codebase, then modernize.**
     - Follow the style, naming, structure, and APIs already in the source unless the request says otherwise.
     - Prefer the simplest idiomatic solution and established best practice, including error handling, over a newer API merely because it is new, or over copied code.

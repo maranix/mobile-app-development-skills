@@ -54,6 +54,7 @@ Walk every item. A "no" is a finding, not a style preference. Read the stack ref
 
 ## Documentation
 
+- [ ] Plan was presented and approved by the user before code changes began; direction was confirmed after project creation.
 - [ ] The feature, bug, or refactor has a `docs/plan.md` entry, and its status and sub-steps match the code.
 - [ ] `docs/architecture.md` matches the current modules, seams, dependencies, and commands.
 - [ ] `README.md` matches what the app does and how to build, run, and test it.
