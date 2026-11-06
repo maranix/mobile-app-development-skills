@@ -49,6 +49,26 @@ core/                    design system, networking, analytics, common utils
 - `@Suppress` needs a reason on the same line, or the suppression is deleted in review.
 - Keep lint and detekt versions in the version catalog with the other plugins.
 
+## Build and verify loop
+
+Split the work: a compile or one test after an edit, one gate for a batch.
+
+```bash
+# inner loop
+./gradlew :app:compileDebugKotlin
+./gradlew :app:testDebugUnitTest --tests '*HomeViewModelTest'
+
+# gate, once per batch
+./gradlew ktlintCheck detekt lintDebug testDebugUnitTest assembleDebug
+```
+
+- Keep the Gradle daemon; `--no-daemon` pays configuration and JIT cost on every call. Use `--offline` when the dependencies are cached.
+- Run `ktlintFormat` on its own when formatting changes files, then the gate. With a warm daemon the follow-up costs seconds.
+- `lintDebug` is the slow task: it analyzes the main, unit-test, and androidTest sources. `assembleDebug` is the other tail. Neither is a useful per-edit check.
+- Verify a manifest change with `aapt2 dump badging app/build/outputs/apk/debug/app-debug.apk` instead of installing on a device.
+- `connectedDebugAndroidTest` needs an attached device or a running emulator. Do not download a system image or create an AVD without asking, and name the size first.
+- Before choosing `compileSdk`, a plugin, or a linter version, check the installed platforms, `java -version`, and the tool's compatibility notes. An unresolvable SDK or a linter that cannot parse the JDK fails minutes into the build.
+
 ## Gotchas
 
 - Edge-to-edge is enforced for recent target SDKs. Handle insets in the scaffold, not per screen.

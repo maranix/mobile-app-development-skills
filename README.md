@@ -27,6 +27,7 @@ Both skills work with any agent that supports the [Agent Skills](https://agentsk
 - **One spine, four stacks.** The same rules apply everywhere; each stack reference supplies the idiom, the recommended libraries, and the platform-specific gotchas.
 - **Seams over folder conventions.** Every boundary between UI, logic, data, and platform code is a cut you can substitute. The skills keep those seams narrow and testable instead of enforcing a directory shape.
 - **Official generators first.** New projects start from the stack's recommended CLI or canonical wizard, never a hand-built tree, so the result keeps upstream structure and fixes.
+- **Cheap feedback, one honest gate.** The inner loop compiles the touched target and runs one filtered test; the formatter check, linter, full tests, and build run once per batch. Toolchain versions are probed before they reach build files, and no emulator or runtime is downloaded unasked.
 - **Documentation is part of the deliverable.** Decisions, architecture, planned work, and the project README stay in sync: a feature, bug, or refactor starts with a `docs/plan.md` entry, and `docs/architecture.md` and `README.md` move with the code. An optional `AGENTS.md` gives the next agent that contract.
 - **Quiet by default.** A skill's body loads only when needed. The conventions skill can be matched automatically; the scaffold skill is explicit-only, and Claude Code and Codex can enforce that.
 
@@ -34,7 +35,7 @@ Both skills work with any agent that supports the [Agent Skills](https://agentsk
 
 ### [`mobile-conventions`](skills/mobile-conventions/SKILL.md)
 
-The shared reference for changing or reviewing a mobile codebase: consistency, structure, layering, state ownership, navigation, dependency injection, persistence, error handling, formatting, lint, testing, accessibility, and project documents, including keeping the README in sync.
+The shared reference for changing or reviewing a mobile codebase: consistency, structure, layering, state ownership, navigation, dependency injection, persistence, error handling, formatting, lint, testing, verification, accessibility, and project documents, including keeping the README in sync.
 
 A per-stack reference adds the idiom and gotchas. A [review checklist](skills/mobile-conventions/reference/review-checklist.md) turns the rules into pass/fail items, and a [planning reference](skills/mobile-conventions/reference/planning.md) covers the project documents and the feature and bug intake.
 
@@ -57,7 +58,7 @@ A per-stack reference adds the idiom and gotchas. A [review checklist](skills/mo
 
 ### [`mobile-scaffold`](skills/mobile-scaffold/SKILL.md)
 
-A one-time setup workflow. It reads the request, infers the stack, scope, dependencies, and defaults, and asks only for what is missing. It records the request and agreed choices in `docs/decisions.md`, generates the project with the official CLI or wizard, and applies the scaffold steps: folder structure, dependency injection, lint and CI, a navigation skeleton, a test harness, the accessibility baseline, the README and license, the detailed `docs/architecture.md`, a seeded `docs/plan.md`, and optional `AGENTS.md` instructions, with the README kept in sync with the architecture and plan.
+A one-time setup workflow. It reads the request, infers the stack, scope, dependencies, and defaults, and asks only for what is missing. It records the request and agreed choices in `docs/decisions.md`, generates the project with the official CLI or wizard, and applies the scaffold steps: folder structure, dependency injection, lint and CI, a navigation skeleton, a test harness, the accessibility baseline, the README and license, the detailed `docs/architecture.md`, a seeded `docs/plan.md`, and optional `AGENTS.md` instructions, with the README kept in sync with the architecture and plan. It also keeps the feedback loop cheap: probe the toolchain first, use an inner loop while writing, and run one full gate at the end.
 
 **Example prompts**
 

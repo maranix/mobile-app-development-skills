@@ -42,6 +42,9 @@ Walk every item. A "no" is a finding, not a style preference. Read the stack ref
 ## Quality gates
 
 - [ ] Formatter and linter run in CI and pass.
+- [ ] Verification matched the change: inner loop while editing, one gate for the batch.
+- [ ] No build, lint, or test gate was spent on a documentation-only change.
+- [ ] No emulator, simulator runtime, or large SDK download was provisioned without asking.
 - [ ] Logic has unit tests at the seams; one end-to-end flow per feature.
 - [ ] No suppression without a stated reason.
 

@@ -1,6 +1,6 @@
 ---
 name: mobile-conventions
-description: Conventions for Android, iOS, Flutter, and Kotlin Multiplatform apps, covering consistency, structure, layering, state, navigation, dependency injection, persistence, errors, lint, testing, accessibility, and project documents, including the README. Use when changing, reviewing, or planning work in a mobile codebase.
+description: Conventions for Android, iOS, Flutter, and Kotlin Multiplatform apps, covering consistency, structure, layering, state, navigation, dependency injection, persistence, errors, lint, testing, verification, accessibility, and project documents, including the README. Use when changing, reviewing, or planning work in a mobile codebase.
 ---
 
 # Mobile app conventions
@@ -45,6 +45,7 @@ Reviewing rather than building? Walk [`reference/review-checklist.md`](reference
     - Do not ask whether to fix or modernize it; either do it or record why it remains.
     - State the errors and edge cases you are not handling in a brief comment: what can fail, and why. A reader should not have to simulate the code to find them.
     - Keep comments and documentation to brief descriptions of intent, not a scratchpad or a transcript of the work.
+13. **Verify in proportion to the change.** Split verification into an inner loop and a gate. The inner loop compiles or analyzes only what changed and runs one filtered test, so it costs seconds. The gate runs the formatter check, linter, full tests, and build once per batch of edits, not after each file. Keep the build daemon warm, batch independent edits, and skip the gate for prose-only changes. Probe the toolchain (SDK platforms, JDK, tool versions) before writing build config, so an incompatible version fails in seconds rather than after a download. Never provision an emulator, simulator runtime, or large SDK image without asking. If the gate has run more than a handful of times for one change, the loop is too expensive; fix the loop before continuing. The stack reference lists the exact commands.
 
 ## Shared or platform code
 
@@ -77,4 +78,4 @@ A feature, bug, or refactor gets an entry in `docs/plan.md` before code. Archite
 3. **Place the change.** Name the layer it belongs to and the seam it crosses. If you cannot name the layer, the design is not settled.
 4. **Check the seam.** Ask whether UI imports data, logic imports UI, or shared code imports platform APIs. Any yes means the dependency moves behind an interface.
 5. **Sync the documents.** Update `docs/architecture.md` and `README.md` in the same change. Done when the plan entry, architecture, README, and decisions agree.
-6. **Verify with the stack's tools.** Run its build, lint, and test tasks; a green build is the floor, not the proof.
+6. **Verify with the stack's tools.** Work in the stack reference's inner loop, then run its gate once for the batch. A green build is the floor, not the proof; rule 13 sets the budget.

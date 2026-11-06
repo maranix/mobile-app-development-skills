@@ -10,7 +10,7 @@ One-time recipe. The output is a skeleton that builds; the steps below add struc
 
 **Generate, don't hand-write.** Start every project from the stack's recommended CLI or canonical wizard, then modify its output. The generated files are the baseline, so the project keeps the official template's structure and picks up upstream fixes.
 
-Run step 1 first, then read [`../mobile-conventions/SKILL.md`](../mobile-conventions/SKILL.md) and the stack reference it routes you to. Every step ends with a check; do not start the next step until it passes.
+Run step 1 first, then read [`../mobile-conventions/SKILL.md`](../mobile-conventions/SKILL.md) and the stack reference it routes you to. Every step ends with a check; do not start the next step until it passes. Run each check with the stack reference's inner loop and save the full gate for the end (see [Keep the loop cheap](#keep-the-loop-cheap)).
 
 ## 1. Read the request and fill the gaps
 
@@ -62,7 +62,7 @@ Use the stack's official generator, in this order, and keep it current (`flutter
 
 Generate the smallest app the tool offers, then layer the scaffold's changes on that baseline. Delete any sample screens the template leaves behind; a project assembled by hand loses the template's structure and the upstream fixes that come with it.
 
-**Check:** the empty app builds and launches on a device or simulator.
+**Check:** the empty app builds, and launches when a device or simulator is already attached. Do not provision one without asking.
 
 ## 3. Apply the folder structure
 
@@ -80,7 +80,7 @@ Construct the graph at the entry point and pass dependencies down. Start with co
 
 Skip this step when the user chose None. Otherwise use the level from step 1: add the stack's formatter and linter with config at the repository root, then a CI job that runs format-check, lint, and tests on every push, failing on warnings.
 
-**Check:** CI is green on the empty app, and a deliberately misformatted line turns it red.
+**Check:** a deliberately misformatted line fails the local check (revert it), and CI is green on the empty app.
 
 ## 6. Add the navigation skeleton
 
@@ -92,7 +92,7 @@ Create two typed routes and one screen that moves between them. Make a deep link
 
 One unit test for logic, one UI test for the screen, and both running in CI. Add the CI job here if step 5 was skipped. Use fakes at the seams; no live network in tests.
 
-**Check:** a failing assertion fails CI.
+**Check:** a failing assertion fails the local test task (revert it), and the suite runs in CI.
 
 ## 8. Add the accessibility baseline
 
@@ -102,13 +102,13 @@ Label the interactive elements, set the minimum target size, and check the scree
 
 ## 9. Add the README and license
 
-Write `README.md` from `docs/decisions.md` and the original description: what the app does, the platforms it targets, prerequisites, configuration, the commands to build, run, and test, the folder layout, and the license. Add the chosen `LICENSE` file at the repository root, or an "All rights reserved" notice in the README when the user chose proprietary. Treat it as a living document: step 10 checks it against the architecture, and future feature work updates it with the plan entry.
+Write `README.md` from `docs/decisions.md` and the original description: what the app does, the platforms it targets, prerequisites, configuration, the commands to build, run, and test, the folder layout, and the license. Add the chosen `LICENSE` file at the repository root, or an "All rights reserved" notice in the README when the user chose proprietary. Treat it as a living document: step 10 checks it against the architecture, and future feature work updates it with the plan entry. Write it after the build commands and versions stop changing, so a prose edit does not force another verification cycle.
 
 **Check:** a newcomer can build and run from the README alone, and the license file or notice matches `docs/decisions.md`.
 
 ## 10. Record the decisions and architecture
 
-Update `docs/decisions.md` with anything the build changed: the actual package name, the dependencies that were added, and the lint config. Write `docs/architecture.md`: the feature and module tree, the seam each layer crosses, dependency direction, the libraries with versions, and how the platforms split for KMP or Flutter. Create `docs/plan.md` with an empty `## Next` checklist and the scaffold under `## Done`. Re-read `README.md` and make it agree with the architecture: the same feature names, commands, and dependencies. Future work reads all four before proposing a different shape.
+Update `docs/decisions.md` with anything the build changed: the actual package name, the dependencies that were added, and the lint config. Write `docs/architecture.md`: the feature and module tree, the seam each layer crosses, dependency direction, the libraries with versions, and how the platforms split for KMP or Flutter. Create `docs/plan.md` with an empty `## Next` checklist and the scaffold under `## Done`. Re-read `README.md` and make it agree with the architecture: the same feature names, commands, and dependencies. Do this after the build settles, so the commands and versions you record are final. Future work reads all four before proposing a different shape.
 
 **Check:** all four files exist, agree with each other, and a new contributor can name every choice and find every module's dependencies from them alone.
 
@@ -128,6 +128,20 @@ If the prompt named a specific tool, add that tool's file (`CLAUDE.md`, `GEMINI.
 For vanilla, skip this step unless the prompt asked for agent support; then point at `docs/decisions.md` and the conventions skill only, since the other documents do not exist.
 
 **Check:** a fresh agent session can find the docs and the conventions skill from `AGENTS.md` alone, and knows that a plan entry comes first and the other documents move with the code.
+
+## Keep the loop cheap
+
+A scaffold is one long edit; the tooling should not dominate it.
+
+- **Probe before writing config.** In one command, list the installed SDK platforms and Build-Tools, the JDK, and the generator, wrapper, linter, and plugin versions. Choose versions that are installed and compatible, and record why in `docs/decisions.md`. An unresolvable `compileSdk` or a linter that cannot parse the JDK costs a failed build each time it is discovered late.
+- **Warm the toolchain once.** The generator and the first build download the wrapper, dependencies, and sometimes a JDK. Let that run once, keep the build daemon alive afterwards, and do not pass `--no-daemon`.
+- **Use the inner loop while writing code.** Compile the touched target, run one filtered test, or analyze one directory. The stack reference lists the commands.
+- **Gate once per batch.** Run the formatter check, linter, full tests, and build after a group of edits, not after each file. Prose changes to the four documents need no code gate; check them against the code and their links instead.
+- **Batch before the gate.** Fix every known import, lint, and formatting problem in one pass, then verify once. Ten small builds cost more than one review of the diff.
+- **Check for a device, do not create one.** Probe with `adb devices`, `xcrun simctl list devices booted`, or `flutter devices`. Never download an emulator image, simulator runtime, or platform pack, or create a device, without asking and naming the download size.
+- **Write the commands last.** Generate the README and architecture commands and versions after the build stops changing, so prose does not force another gate.
+
+Done when the scaffold needed one cold build, a few inner-loop checks, and one final gate.
 
 ## Keep the skeleton small
 

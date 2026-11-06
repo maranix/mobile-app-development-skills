@@ -50,6 +50,7 @@ Each entry:
 
 - Write for someone who has never seen the project: purpose, platforms, prerequisites, configuration, commands, layout, and license.
 - Keep it current. A feature that changes what the app does, a dependency that changes setup, or a command that changes how it is run updates the README in the same change.
+- Write the commands and versions after the build stops changing; a prose fix should not force another verification cycle.
 - Link to `docs/architecture.md` for module detail instead of duplicating it.
 - Remove instructions and features that no longer exist; a stale README is worse than a short one.
 
@@ -67,6 +68,7 @@ The plan entry comes first. No feature, bug, or refactor starts without one, and
 
 - **Definition of done:** the plan entry is `done` and its sub-steps are checked; `docs/architecture.md` matches the code; `README.md` builds and runs from a clean checkout; `docs/decisions.md` records every choice; no document contradicts another.
 - **Removed features:** keep the plan entry for history, mark it done, remove the feature from the architecture and README, and record the decision if the removal was a choice.
+- **Prose-only changes need no code gate.** A README, decisions, architecture, or plan edit is checked against the code and its links; it does not need a build, lint, or test run. Batch document edits and verify them once.
 - **Stale docs are a bug.** If code and documents disagree, fix them in the same change or open a plan entry before doing anything else.
 
 ## Feature and bug intake

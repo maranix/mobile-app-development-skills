@@ -50,6 +50,24 @@ lib/
 - Exclude generated files (`*.g.dart`, `*.freezed.dart`, `*.gr.dart`) from formatting and analysis; regenerate them instead of editing them.
 - `// ignore:` needs a reason. Fix the code, or narrow the rule in `analysis_options.yaml`, before reaching for it.
 
+## Build and verify loop
+
+```bash
+# inner loop
+flutter analyze lib/features/home
+flutter test test/features/home/home_view_model_test.dart
+
+# gate, once per batch
+dart format --output=none --set-exit-if-changed .
+flutter analyze --fatal-infos --fatal-warnings
+flutter test
+```
+
+- `flutter analyze` accepts a path, so analyze only the directory that changed while writing.
+- `flutter run` and `flutter build apk|ipa` are the slow tail. Probe with `flutter devices` and run only on an attached device; do not download a platform, SDK, or emulator image without asking, and name the size first.
+- `flutter pub get` once after a dependency change; use `flutter pub get --offline` when the cache is warm.
+- Regenerate goldens once for the change (`flutter test --update-goldens`), not after every edit.
+
 ## Gotchas
 
 - Check `mounted` (or `context.mounted`) after every `await` before touching `BuildContext`.

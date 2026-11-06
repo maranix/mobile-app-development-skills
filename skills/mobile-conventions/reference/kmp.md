@@ -50,6 +50,22 @@ Kotlin Toolchain projects use `project.yaml` and `module.yaml` instead of Gradle
 - CI runs `ktlintCheck`, `detekt`, and both platform linters; a change that passes on Android can still fail the iOS lint step.
 - `@Suppress` in `commonMain` hides the problem on every platform. Fix it, or scope the suppression to the file with a comment.
 
+## Build and verify loop
+
+```bash
+# inner loop: the source set that changed
+./gradlew :shared:compileKotlinJvm
+./gradlew :shared:jvmTest --tests '*HomeViewModelTest'
+
+# gate, once per batch
+./gradlew ktlintCheck detekt :shared:allTests :composeApp:assembleDebug
+```
+
+- `allTests` compiles and runs every target, including the iOS ones; it is a gate, not an inner-loop command. Target the changed source set instead.
+- Keep the Gradle daemon and use `--offline` once dependencies are cached. Kotlin/Native downloads per target on the first build; expect that once.
+- Toolchain projects: `kotlin build` and `kotlin test` replace the Gradle tasks with the same split.
+- iOS tests need an installed simulator. Do not download a runtime or create a device without asking, and name the size first.
+
 ## Gotchas
 
 - Old freezing and `@ThreadLocal` advice predates the current memory model; do not reintroduce it.

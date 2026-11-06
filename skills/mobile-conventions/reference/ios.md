@@ -49,6 +49,23 @@ Core/                    design system, networking, analytics
 - Enable "Treat Warnings as Errors" for new targets and keep Swift concurrency warnings on rather than downgrading them.
 - A `// swiftlint:disable` needs a reason and the narrowest scope: the next line, not the file.
 
+## Build and verify loop
+
+```bash
+# inner loop
+xcodebuild -quiet build -scheme App -destination 'platform=iOS Simulator,name=iPhone 16'
+swift test --filter HomeViewModelTests
+
+# gate, once per batch
+swiftformat --lint . && swiftlint --strict
+xcodebuild -quiet test -scheme App -destination 'platform=iOS Simulator,name=iPhone 16'
+```
+
+- `swift test` covers package logic without a simulator; `xcodebuild test` is the gate for app and UI targets.
+- Use a simulator that is already installed and booted (`xcrun simctl list devices booted`). Do not download a runtime or create a device without asking, and name the size first.
+- `xcodebuild` is noisy; `-quiet` leaves the errors and warnings. Point `-derivedDataPath` at a local cache to keep repeat builds warm.
+- Check `xcodebuild -showsdks` and the deployment target before adding an API. A newer SDK than the target fails at compile or review time.
+
 ## Gotchas
 
 - `@Observable` requires iOS 17+. Below that, use `ObservableObject` with `@StateObject`, and do not mix the two models in one feature.
