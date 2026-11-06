@@ -50,6 +50,7 @@ Walk every item. A "no" is a finding, not a style preference. Read the stack ref
 - [ ] Logic has unit tests at the seams; one end-to-end flow per feature.
 - [ ] No suppression without a stated reason.
 - [ ] No lint rule, ignore comment, or compiler warning was disabled to hide version skew.
+- [ ] Commits are small, atomic, and frequent (under ±200 lines ideally, ±500 max), or split as (1/x) unless tightly coupled or an initial project scaffold.
 
 ## Documentation
 

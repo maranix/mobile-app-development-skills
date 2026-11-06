@@ -51,7 +51,7 @@ For example, "Create a new app for workout tracking which works offline and uses
 
 **Check:** every gap has an answer, and `docs/decisions.md` records the request and the agreed choices.
 
-## 2. Create the project
+## 2. Create and commit the project template
 
 Use the stack's official generator, in this order, and keep it current (`flutter upgrade`, `kotlin update`, the current Xcode and `android` CLI) so the template carries the latest fixes:
 
@@ -60,9 +60,11 @@ Use the stack's official generator, in this order, and keep it current (`flutter
 - **Flutter:** `flutter create --empty --org com.example --platforms=android,ios my_app`. `--empty` skips the counter sample.
 - **KMP:** JetBrains recommends the Kotlin Toolchain for new projects: `kotlin init` (install with `curl -fsSL https://kotl.in/install.sh | sh`). If `kotlin init` is unavailable, recommend the Toolchain and ask before installing; if declined, use the Gradle path: the wizard at `kmp.jetbrains.com` or IDE > New Project > Kotlin Multiplatform. The Toolchain is pre-1.0; choose Gradle when the project must stay on the standard build.
 
-Generate the smallest app the tool offers, then layer the scaffold's changes on that baseline. Delete any sample screens the template leaves behind; a project assembled by hand loses the template's structure and the upstream fixes that come with it. Keep the versions the generator chose; see [Keep the generator's toolchain and dependencies](#keep-the-generators-toolchain-and-dependencies) before changing a toolchain, wrapper, platform target, SDK, or dependency version.
+Generate the smallest app the tool offers. Keep the versions the generator chose; see [Keep the generator's toolchain and dependencies](#keep-the-generators-toolchain-and-dependencies) before changing a toolchain, wrapper, platform target, SDK, or dependency version.
 
 **Check:** the empty app builds on the generator's toolchain and dependencies (JDK, Gradle, Xcode, SDK, Flutter, Dart, packages), and launches when a device or simulator is already attached. Do not provision one without asking.
+
+**Commit the template:** Do not proceed with implementation or modifications immediately. Commit the freshly generated template intact as its own commit (do not federate or split into parts) to establish the clean upstream baseline in git history. Layer scaffold changes in subsequent atomic commits from there.
 
 ## 3. Apply the folder structure
 
@@ -156,4 +158,4 @@ Done when the scaffold needed one cold build, a few inner-loop checks, and one f
 
 - Ship one navigation example, not a feature.
 - Recommend the platform's built-in option first; a package earns its place when the first feature needs it.
-- Delete generator sample code, counter state, and placeholder TODOs before the first commit.
+- Delete generator sample code, counter state, and placeholder TODOs in the first commit after the initial template commit.

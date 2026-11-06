@@ -80,7 +80,7 @@ Before writing an entry or code:
 2. **Understand the request.** What problem does it solve, who hits it, what happens today, what must not change, and how will success be measured?
 3. **Look for a smaller path.** If an existing feature, a configuration change, or a different approach meets the need, propose it and say what it saves. If the user agrees, take that path and record it; otherwise keep gathering requirements and continue with the requested work.
 4. **Agree before building.** Put the entry in `docs/plan.md` with requirements, approach, alternatives, sub-steps, acceptance, and the docs it will update. A bug entry also records the reproduction and the expected behavior.
-5. **Break it down.** Each sub-step is a change that can land and be verified on its own. If a step needs a decision, record it in `docs/decisions.md`.
+5. **Break it down into atomic commits.** Each sub-step is an atomic commit (under ±200 lines ideally, ±500 max). Commit often during features and fixes; if a change exceeds this limit, split sequentially as `summary (1/x)` unless tightly coupled or an initial scaffold. Record decisions in `docs/decisions.md`.
 6. **Work the list.** Update status and check off sub-steps as they land. Update `docs/architecture.md` and `README.md` in the same change whenever the shape, dependencies, commands, or user-facing behavior move. A change is not done while the documents disagree.
 
 Do not start implementation while the goal or acceptance is unclear; ask instead of guessing.
