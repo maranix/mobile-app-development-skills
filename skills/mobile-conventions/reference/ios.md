@@ -48,9 +48,9 @@ Core/                    design system, networking, analytics
 - CI runs `swiftformat --lint .` and `swiftlint --strict`; strict mode turns warnings into failures so they cannot accumulate.
 - Enable "Treat Warnings as Errors" for new targets and keep Swift concurrency warnings on rather than downgrading them.
 - A `// swiftlint:disable` needs a reason and the narrowest scope: the next line, not the file.
-- The generator owns the versions: keep the Xcode version, Swift language mode, iOS deployment target, and provisioned SPM/framework dependencies the project started with. Never downgrade deployment targets, Swift versions, or dependencies to satisfy a third-party library, tool, or linter.
-- When a library or tool does not support the project's iOS deployment target or Swift version, surface it as an explicit decision (modern alternative, omit, or accept the downgrade) rather than lowering the platform baseline.
-- Never add `// swiftlint:disable` comments or lower Xcode compiler warning levels solely to mask deployment target or dependency version skew.
+- The generator owns toolchain and dependencies: keep provisioned Xcode, Swift version, iOS target, and SPM dependencies. Do not downgrade them for a third-party tool or library.
+- If a library lacks support for the project's iOS target or Swift version, ask the user (modern alternative, omit, or accept downgrade); never downgrade silently.
+- Never add `// swiftlint:disable` or lower Xcode warning levels to mask deployment target or dependency skew.
 
 ## Build and verify loop
 

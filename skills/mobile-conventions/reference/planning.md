@@ -14,7 +14,7 @@ Four documents record a project. Each answers a different question; link between
 - One entry per decision, newest last: date, status (proposed, agreed, superseded), the request in a sentence, the choice, and the reason.
 - Record the alternatives that were rejected and why, so the next person does not reopen them.
 - When a choice changes, add a new entry and mark the old one superseded; do not rewrite history.
-- Treat a toolchain or dependency deviation forced by a tool or library across any variant (Android, iOS, Flutter, KMP) as a decision: record the tool or package, the versions involved, and the user's choice. A silent downgrade, or a lint/compiler suppression that only hides version skew, is a defect.
+- Record any toolchain or dependency deviation as a decision: name the tool/package, versions involved, and user's choice. Silent downgrades and suppressions hiding version skew are defects.
 - Keep the architecture to a paragraph and link to `docs/architecture.md` for the detail.
 
 ## Architecture
