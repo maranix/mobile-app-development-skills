@@ -52,6 +52,14 @@ Walk every item. A "no" is a finding, not a style preference. Read the stack ref
 - [ ] `README.md` matches what the app does and how to build, run, and test it.
 - [ ] No document describes a feature or command that no longer exists.
 
+## Consistency
+
+- [ ] New code follows the style, naming, structure, and APIs already used in the source.
+- [ ] No deprecated APIs or older coding styles; external snippets were modernized before use.
+- [ ] Unhandled errors and edge cases are named in a brief comment: what can fail, and why.
+- [ ] Comments and documentation describe intent; they are not a scratchpad or a transcript.
+- [ ] An older snippet that could not be modernized has a `TODO` or a documented source and older API/style, plus a probable replacement.
+
 ## Per stack
 
 Run the checks in the matching reference: [android](android.md) · [ios](ios.md) · [flutter](flutter.md) · [kmp](kmp.md).

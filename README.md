@@ -23,6 +23,7 @@ Both skills work with any agent that supports the [Agent Skills](https://agentsk
 
 ## Why these skills
 
+- **Consistency first, then modernization.** New code follows the style and APIs already in the source, uses the current idiom of the targeted SDK instead of a deprecated one, and modernizes copied snippets before adding them. Unhandled failures are named in a brief comment instead of being left for the reader to discover.
 - **One spine, four stacks.** The same rules apply everywhere; each stack reference supplies the idiom, the recommended libraries, and the platform-specific gotchas.
 - **Seams over folder conventions.** Every boundary between UI, logic, data, and platform code is a cut you can substitute. The skills keep those seams narrow and testable instead of enforcing a directory shape.
 - **Official generators first.** New projects start from the stack's recommended CLI or canonical wizard, never a hand-built tree, so the result keeps upstream structure and fixes.
@@ -33,7 +34,7 @@ Both skills work with any agent that supports the [Agent Skills](https://agentsk
 
 ### [`mobile-conventions`](skills/mobile-conventions/SKILL.md)
 
-The shared reference for changing or reviewing a mobile codebase: structure, layering, state ownership, navigation, dependency injection, persistence, error handling, formatting, lint, testing, accessibility, and project documents, including keeping the README in sync.
+The shared reference for changing or reviewing a mobile codebase: consistency, structure, layering, state ownership, navigation, dependency injection, persistence, error handling, formatting, lint, testing, accessibility, and project documents, including keeping the README in sync.
 
 A per-stack reference adds the idiom and gotchas. A [review checklist](skills/mobile-conventions/reference/review-checklist.md) turns the rules into pass/fail items, and a [planning reference](skills/mobile-conventions/reference/planning.md) covers the project documents and the feature and bug intake.
 

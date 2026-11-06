@@ -1,6 +1,6 @@
 ---
 name: mobile-conventions
-description: Conventions for Android, iOS, Flutter, and Kotlin Multiplatform apps, covering structure, layering, state, navigation, dependency injection, persistence, errors, lint, testing, accessibility, and project documents, including the README. Use when changing, reviewing, or planning work in a mobile codebase.
+description: Conventions for Android, iOS, Flutter, and Kotlin Multiplatform apps, covering consistency, structure, layering, state, navigation, dependency injection, persistence, errors, lint, testing, accessibility, and project documents, including the README. Use when changing, reviewing, or planning work in a mobile codebase.
 ---
 
 # Mobile app conventions
@@ -37,6 +37,14 @@ Reviewing rather than building? Walk [`reference/review-checklist.md`](reference
 9. **Test at the seam.** Unit-test logic with fakes; contract-test data against a fake server or database; keep end-to-end UI tests to one or two flows per feature. Snapshot tests belong to the design system, not to every screen.
 10. **Format and lint are automated.** A formatter owns layout and a linter owns the mechanical rules, so review attention goes to design. Wire both into the build and CI, and when a warning is wrong, change the rule rather than suppressing it at the call site.
 11. **Documentation moves with the code.** A feature, bug, or refactor starts with a `docs/plan.md` entry. `docs/architecture.md` and `README.md` change in the same commit whenever the shape, dependencies, commands, or user-facing behavior move. A change is not done while the documents disagree.
+12. **Match the codebase, then modernize.**
+    - Follow the style, naming, structure, and APIs already in the source unless the request says otherwise.
+    - Prefer the simplest idiomatic solution and established best practice, including error handling, over a newer API merely because it is new, or over copied code.
+    - Use the current idiom and features of the language and SDK version the project targets; never introduce a deprecated API or older style.
+    - Modernize a gist, answer, or open-source snippet before adding it. If it cannot be modernized, mark it `TODO` or document the original source and the older API or style it uses, and add a probable replacement when one exists.
+    - Do not ask whether to fix or modernize it; either do it or record why it remains.
+    - State the errors and edge cases you are not handling in a brief comment: what can fail, and why. A reader should not have to simulate the code to find them.
+    - Keep comments and documentation to brief descriptions of intent, not a scratchpad or a transcript of the work.
 
 ## Shared or platform code
 
